@@ -1,0 +1,27 @@
+# Core ML
+torch>=2.1.0
+transformers>=4.40.0
+datasets>=2.18.0
+scikit-learn>=1.4.0
+numpy>=1.26.0
+pandas>=2.2.0
+
+# Signal extraction
+spacy>=3.7.0
+sentence-transformers>=2.7.0
+
+# Calibration + evaluation
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Demo
+gradio>=4.20.0
+
+# Utilities
+tqdm>=4.66.0
+python-dotenv>=1.0.0
+jsonlines>=4.0.0
+
+# Optional: quantization for low-memory GPU
+bitsandbytes>=0.43.0
+accelerate>=0.29.0

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+venv/
+.env/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Models (large files, track separately if needed)
+models/*.pkl
+models/*.bin
+models/*.pt
+
+# Data (raw data is often large, keep processed small files)
+data/raw/*
+!data/raw/.gitkeep
+
+# API keys / secrets
+.env
+*.env
+secrets.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
