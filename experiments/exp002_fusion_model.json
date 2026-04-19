@@ -8,9 +8,9 @@
   },
   "metrics": {
     "fusion_model": {
-      "auroc": 0.9225,
-      "ece": 0.0617,
-      "coverage": 0.375,
+      "auroc": 0.99,
+      "ece": 0.0947,
+      "coverage": 0.4,
       "accuracy": 1.0
     },
     "ablation": {
@@ -35,16 +35,16 @@
         "ece": 0.1681
       },
       "entropy_all": {
-        "auroc": 0.9337,
-        "ece": 0.1076
+        "auroc": 0.9925,
+        "ece": 0.0913
       },
       "signals_2_and_3": {
         "auroc": 0.5225,
-        "ece": 0.0804
+        "ece": 0.0622
       },
       "all_5_features": {
-        "auroc": 0.9225,
-        "ece": 0.0617
+        "auroc": 0.99,
+        "ece": 0.0947
       }
     }
   },

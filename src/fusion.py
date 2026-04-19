@@ -11,6 +11,7 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 import pickle
@@ -34,9 +35,11 @@ def load_features(path: str = "../data/processed/features.csv"):
     return X, y, df
 
 
+
 def train_classifier(X_train, y_train):
     pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="mean")),
+        ("scaler",  StandardScaler()),
         ("clf",     LogisticRegression(
             max_iter=1000,
             class_weight="balanced",
@@ -47,7 +50,6 @@ def train_classifier(X_train, y_train):
     calibrated.fit(X_train, y_train)
     print("Classifier trained and calibrated.")
     return calibrated
-
 
 def predict_with_abstention(clf, X, threshold: float = 0.5):
     probs     = clf.predict_proba(X)[:, 1]

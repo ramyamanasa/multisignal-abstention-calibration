@@ -51,7 +51,7 @@ def compute_entropy_signal(token_logprobs: list, tokens: list) -> dict:
     entity_indices = _find_entity_token_indices(tokens, doc)
 
     if len(entity_indices) == 0:
-        entity_entropy = float("nan")
+        entity_entropy = mean_entropy  # fallback to mean instead of nan
     else:
         entity_entropy = float(np.mean(entropies[entity_indices]))
 
