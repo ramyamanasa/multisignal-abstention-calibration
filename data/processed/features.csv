@@ -1,0 +1,101 @@
+question_id,question,predicted_answer,is_hallucination,mean_entropy,max_entropy,entity_entropy,semantic_inconsistency,cross_model_disagreement
+0,Which American-born Sinclair won the Nobel Prize for Literature in 1930?,The Nobel Committee.,1,0.27725508790575354,0.35840631363032754,0.25456264801120504,0.5235958695411682,0.5253962874412537
+1,Where in England was Dame Judi Dench born?,In England.,0,0.33661081976913904,0.3632760580595567,0.3227441378453913,0.5174005627632141,0.680216908454895
+2,In which decade did Billboard magazine first publish and American hit chart?,In the early 2000s.,1,0.2836249639905127,0.3666243540446108,0.311362844733083,0.6690865457057953,0.4385530352592468
+3,From which country did Angola achieve independence in 1975?,Angola.,1,0.34746326934579397,0.3654030718224162,,0.5567091107368469,0.6128426790237427
+4,Which city does David Soul come from?,The city of New York.,0,0.2755255061762206,0.36779177224179144,0.2551230298499913,0.8440712988376617,0.9438291937112808
+5,Who won Super Bowl XX?,The Patriots.,1,0.2928937405693004,0.3670750286443754,0.18034740443987585,0.7414425015449524,0.43542230129241943
+6,Which was the first European country to abolish capital punishment?,The United States.,1,0.30629100230824197,0.36077490677869034,0.27874683072297374,0.6378598213195801,0.40407228469848633
+7,In which country did he widespread use of ISDN begin in 1988?,In the United States.,0,0.305466855817681,0.3676415984930279,0.2698026927245046,0.7163093984127045,0.8883121013641357
+8,What is Bruce Willis' real first name?,Bruce Willis.,1,0.366886432965965,0.36759272481408084,0.36737895678536664,0.39913272857666016,0.0
+9,Which William wrote the novel Lord Of The Flies?,William.,1,0.31508417895207513,0.3677659379985663,0.3655319512361644,0.5620858073234558,0.7525073289871216
+10,Which innovation for the car was developed by Prince Henry of Prussia in 1911?,The first innovation was the use of a car engine. The second was the use of a car engine. The third was the use of a car engine. The fourth was the use of a car engine. The fifth was the use of a car engine,1,0.20948049944473252,0.3678794304755342,0.1360481837524285,0.6559881567955017,1.0400451645255089
+11,How is musician William Lee Conley better known?,He's a musician.,1,0.3167147346815427,0.3676252346896992,,0.6726059317588806,0.6932181715965271
+12,How is Joan Molinsky better known?,She's a very good actress. She's a very good actress. She's a very good actress. She's a very good actress. She's a very good actress. She's a very good actress. She's a very good actress. She,0,0.17308710960941506,0.3678780096700289,,0.6129679083824158,0.7437705099582672
+13,In which branch of the arts is Patricia Neary famous?,She is a famous artist.,1,0.2820897445905805,0.3599745986856992,,0.6467849612236023,0.5549193918704987
+14,Which country is Europe's largest silk producer?,The Netherlands.,0,0.3165410663499694,0.36597311644575065,0.2996045843185097,0.6283521354198456,0.7299321889877319
+15,The VS-300 was a type of what?,The VS-300 was a type of what?,0,0.25115008339742956,0.3678267917754656,,0.774002268910408,0.6436319947242737
+16,At which university did Joseph Goebbels become a doctor of philosophy?,At the University of Chicago.,1,0.2535990128169548,0.367621871363563,0.19698285033781845,0.5630798935890198,0.4524327516555786
+17,Which prince is Queen Elizabeth II's youngest son?,Prince Charles.,1,0.35501730282752086,0.3659005537780392,0.350831527720517,0.4005724787712097,0.41456669569015503
+18,When did the founder of Jehovah's Witnesses say the world would end?,When the founder of Jehovah's Witnesses said the world would end.,1,0.19091487790569486,0.36526750694405685,0.2263611313768917,0.8092420697212219,0.4326380491256714
+19,Who found the remains of the Titanic?,The Titanic.,1,0.3405227474111798,0.3576507196176326,0.3230194502135116,0.8203722536563873,0.558364987373352
+20,Who was the only Spice Girl not to have a middle name?,The Spice Girls.,0,0.283356723739713,0.36723397717757605,,0.8800023198127747,0.7963555753231049
+21,What are the international registration letters of a vehicle from Algeria?,Algeria is a member of the European Union.,1,0.2733912011196652,0.36609652943275384,0.23358976663229739,0.23772525787353516,0.49629074335098267
+22,How did Jock die in Dallas?,He was a good guy.,1,0.2919677849071311,0.36596344328381275,,0.6739850044250488,0.6576205492019653
+23,What star sign is Michael Caine?,Michael Caine.,1,0.2505791355456176,0.36769163925750886,0.17281348904834246,0.7554588317871094,0.8724660873413086
+24,Who wrote the novel Evening Class?,The author of the novel Evening Class.,1,0.2836884158599466,0.36734730945386695,0.179974449914109,0.7922572791576385,
+25,Which country does the airline Air Pacific come from?,The United States.,0,0.2603239436567609,0.3668523436458341,0.22009258711678836,0.547585666179657,0.05661499500274658
+26,In which branch of the arts does Allegra Kent work?,In the arts.,1,0.32258601144847665,0.3678617094097329,,0.6100963354110718,0.5069169402122498
+27,"Who had a 70s No 1 hit with Billy, Don't Be A Hero?",Billy.,1,0.307149492452619,0.36787826243547705,,0.8603255301713943,0.8526154011487961
+28,Banting and Best pioneered the use of what?,Banting and Best pioneered the use of what?,1,0.18030749399266463,0.3649280194568626,,0.8565894663333893,0.9882831331342459
+29,Who directed the movie La Dolce Vita?,The director of the movie La Dolce Vita.,1,0.23519556324105162,0.3677554460117077,0.09304998454911131,0.7526544779539108,0.6229360401630402
+30,Which country does the airline LACSA come from?,The United States.,0,0.25883001699641595,0.36683104938182104,0.21684899535592203,0.551051139831543,0.16189217567443848
+31,Who directed 2001: A Space Odyssey?,The director of 2001: A Space Odyssey.,0,0.20443487276121663,0.36730884943269143,0.36730884943269143,0.7124270796775818,0.4454925060272217
+32,Which is the largest of the Japanese Volcano Islands?,The largest of the Japanese Volcano Islands.,1,0.28995640145067814,0.3671028935319376,0.3628517945811265,0.5473421514034271,0.6036297678947449
+33,Ezzard Charles was a world champion in which sport?,He was a world champion in which sport.,0,0.3015312183196045,0.36785392073002854,,0.6645850837230682,0.6288558542728424
+34,Who was the first woman to make a solo flight across the Atlantic?,The first woman to make a solo flight across the Atlantic.,1,0.17019301905025352,0.36631274739888986,0.176598172209545,0.7563800364732742,0.6365491151809692
+35,Which port lies between Puget Sound and Lake Washington?,Puget Sound.,1,0.21170998907993277,0.36786902486568457,,0.2701959013938904,0.44383347034454346
+36,In which city were Rotary Clubs set up in 1905?,In the city of Rotary Clubs in 1905.,0,0.29403090304681007,0.36782178121926934,0.3090097599092597,0.41974616050720215,0.44609248638153076
+37,Who became US Vice President when Spiro Agnew resigned?,,1,0.19843527182282944,0.19843527182282944,,0.6872550249099731,
+38,In which decade of the 20th century was Billy Crystal born?,In the 20th century.,0,0.2418953728807427,0.36785492949794674,0.18794403902998563,0.7576402723789215,0.3068351149559021
+39,Which George invented the Kodak roll-film camera?,George.,1,0.29279233006619215,0.36780301310259567,,0.7669315338134766,0.5870763957500458
+40,Which series had the characters Felix Unger and Oscar Madison?,"The first two.I'm not sure if this is a good idea, but I'm not sure if I should be using the same thing for the other two.",0,0.2845201500584398,0.36787445756271514,0.19997807343843593,0.806355208158493,
+41,Who along with Philips developed the CD in the late 70s?,Philips.,1,0.33739916413571674,0.3674446999583148,,0.33460962772369385,0.2845439910888672
+42,Where is the multinational Nestle based?,In the US.,0,0.3078083481813582,0.35963258667978215,0.270948606242026,0.8933692425489426,0.2862434387207031
+43,Do You Know Where You're Going To? was the theme from which film?,Yes.,1,0.35491114700598597,0.36784618925282186,,0.8413491547107697,0.8084595054388046
+44,19969 was the Chinese year of which creature?,19969.,1,0.31370353046966015,0.35708765779186297,0.274062041458266,0.682343602180481,0.5401868522167206
+45,In the 90s how many points have been awarded for finishing second in a Grand Prix?,"In the 90s, the average point awarded for finishing second in a Grand Prix was 1,000.",1,0.24520074112401472,0.3678521651385955,0.24276322563236344,0.6785254776477814,0.3275167942047119
+46,Stapleton international airport is in which US state?,Stapleton International Airport in the US state of New Jersey.,0,0.22297998304422512,0.3672410364218421,0.19103385511774926,0.9554744139313698,1.0752025991678238
+47,What was Kevin Kline's first movie?,"The first movie was a movie called ""The Last of Us"".",1,0.24946328741242202,0.36787939763019795,0.19185280190798495,0.570716381072998,0.3572787046432495
+48,Which actor had a Doberman Pinscher called Kirk?,The one who played the Doberman Pinscher.,0,0.2008205247677217,0.3653702560389612,0.12775131917686772,0.667117178440094,0.5777623653411865
+49,What day of the week was the Wall Street Crash?,The day of the crash.,0,0.3051412350348793,0.36602933105342894,0.2958583693614389,0.7320401072502136,0.2751147150993347
+50,The US signed a treaty with which country to allow the construction of the Panama Canal?,The US signed a treaty with which country to allow the construction of the Panama Canal.,1,0.14725187477969504,0.36483042389481246,0.10091913263620293,0.6177434325218201,0.48463356494903564
+51,What was Prince's last No 1 of the 80s?,Prince's last No 1 of the 80s.,1,0.20853109380420695,0.36770018282147143,0.10165305334487582,0.7253807485103607,0.4118936061859131
+52,Man In The Mirror first featured on which Michel Jackson album?,Michel Jackson.,1,0.3277946088200794,0.3634395576057344,0.29934759672645905,0.6481876969337463,0.5468966364860535
+53,Where was the first battle with US involvement in the Korean War?,The first battle was in the Korean War.,1,0.32394667138545163,0.3672063633142909,0.28717376494774394,0.5976434648036957,0.32151997089385986
+54,On which Caribbean island did Princess Diana spend he first Christmas after her divorce was announced?,The island of Dominica.,0,0.24756856286454496,0.3542471583122653,0.13861400154791076,0.5371825098991394,0.40907150506973267
+55,In which decade was Arnold Schwarzenegger born?,In the year 2000.,0,0.28031403995064436,0.366320353743351,0.254466515845486,0.8006533533334732,0.31409621238708496
+56,Which musical featured the song Thank Heaven for Little Girls?,The song Thank Heaven for Little Girls.,1,0.20379413738951663,0.36787943078709734,0.10173908470488377,0.8800625056028366,0.7877170294523239
+57,The Queen Elizabeth liner was destroyed by fire in the 70s in which harbour?,The Queen Elizabeth liner was destroyed by fire in the 70s in which harbour?,0,0.175114810227447,0.3627627004714638,0.03133271436046865,0.34929877519607544,0.2870631814002991
+58,What breed of dog did Columbo own?,"He was a German Shepherd.I'm not sure if this is a good idea, but I'm not sure if I should be using the same password for every account.",1,0.2956307583630833,0.36783476508822394,0.17227569392686115,0.788670614361763,0.9276088401675224
+59,What was the first movie western called?,The first movie western was called The Last Jedi.,1,0.2932615968868149,0.3673956623707848,0.12018512969315603,0.6186592280864716,0.2755073308944702
+60,Which Oscar-winning actress was born on exactly the same day as actress Lindsay Wagner?,Lindsay Wagner.,1,0.24520398453613074,0.36784718465222493,0.12935612629905396,0.4348483681678772,0.3063059449195862
+61,Which Amendment to the Constitution brought in prohibition in 1920?,The Constitution of the United States of America.,1,0.23207428890080414,0.36625067137631834,0.14141527478081886,0.6646250188350677,0.4506399631500244
+62,Which oil scandal hit the US in 1924?,The oil scandal of 1924.,0,0.2943580803644215,0.3623381974060571,0.20748774461899872,0.4623211622238159,0.23040294647216797
+63,Phil Collins appeared in which Spielberg film with Robin Williams?,Yes.,1,0.3335527789621037,0.3646986489739014,,0.7219601571559906,0.0
+64,1998 was the Chinese year of which creature?,1998.,1,0.3188514169941225,0.3637804558662572,0.23047323664428998,0.6851829886436462,0.2863495349884033
+65,Which country does musician Alfred Brendel come from?,The Netherlands.,0,0.31460369756147066,0.3678741832332826,0.3621342693597288,0.47970831394195557,0.6196443736553192
+66,Theodore Francis international airport is in which US state?,"The US state of New York.I'm not sure if this is a good idea, but I'm not sure if I should be using the same thing for the same price.",0,0.2875069543960212,0.3677108337225188,0.3263992777470243,0.8089773803949356,0.6113670468330383
+67,In which soap did Demi Moore find fame?,The soap opera that was on the air in the 90s.,1,0.2608197676162105,0.3667038335157882,0.2654068671848665,0.7363713979721069,0.6849727928638458
+68,"To the nearest million, what is the population of London, England?",The population of London is about the same as the population of the UK.,1,0.25505938823491797,0.36716646235933376,0.31316557204353945,0.6944465637207031,0.2665538787841797
+69,What did Clarice Cliff create?,"She created a new character, Clarice Cliff, and she created a new character, Clarice Cliff, and she created a new character, Clarice Cliff, and she created a new character, Clarice Cliff, and she created a new character,",0,0.14177276511054995,0.3677952387893876,0.09975118026192038,0.8107602298259735,0.9830097984522581
+70,Which James Bond film features a song by Louis Armstrong?,"The song is called ""The Last Bond"".",1,0.2741674456026414,0.36772860889159353,0.23446708104976963,0.7730909287929535,0.6967716813087463
+71,In what year were US ground troops first dispatched to Vietnam?,In the early 1970s.,1,0.2778289949963502,0.36783296724948267,0.2752247832646919,0.6107944846153259,0.768171638250351
+72,In 1999 Anna Kournikova signed a lucrative contract to model what?,She was a model.,1,0.31775575279911844,0.3676417738871397,,0.8618572503328323,0.7696131765842438
+73,Which member of the Monkees came from Washington DC?,The Monkees.,1,0.26161698914629294,0.36780418505210255,,0.8062264323234558,0.7949373424053192
+74,Which ship was sunk by a German submarine in 1915 with a loss of 1400 lives including 128 Americans?,"The German submarine, the SS SS St. Gallen, sunk in 1915.",1,0.27820330724997305,0.3678792075646224,0.21787187450073667,0.47156745195388794,0.39802759885787964
+75,In what decade were video recorders first developed?,"In the early 2000s, when the first video recorders were first developed, the first video recorders were first developed.",0,0.2747021711547074,0.36230351793752746,0.289375710666223,0.7126083970069885,0.3570646047592163
+76,Who had the noels Spy Hook and Spy Line published in the 80s?,The Spy Hook and Spy Line were published in the 80s.,1,0.24922282079155672,0.36711961588175823,0.14282001546372156,0.5419198870658875,0.16162323951721191
+77,the first credit cards were for use in what type of establishments?,"Yes, they were for use in establishments.",1,0.29492920392145944,0.3665209217590782,,0.47551262378692627,0.3811259865760803
+78,In which country was Ursula Andrews born?,In the UK.,0,0.34794289221716473,0.3591131729629282,0.33289107655264366,0.7288054525852203,0.8514764457941055
+79,What was CBS TV news broadcaster Walter Cronkite's stock closing phrase?,"""I'm not sure.""",1,0.29877683072696964,0.36744455553653615,,0.7947372943162918,0.8604001253843307
+80,Who had a 70s No 1 hit with Let Your Love Flow?,The No 1 hit was a No 1 hit with Let Your Love Flow.,0,0.20743303262083299,0.36787766086660095,,0.9001927003264427,0.7855338454246521
+81,Which state renewed Mike Tyson's boxing license in 1998?,The state of California.,0,0.3185373304146841,0.36331760679951514,0.2867749036167451,0.7438730895519257,0.45535045862197876
+82,Neil Armstrong was a pilot in which war?,Yes.,1,0.33718924541325507,0.36680305397596763,,0.7628537863492966,0.8975670486688614
+83,Which English-born US citizen hosted Masterpiece theater?,"The Masterpiece Theater in Washington, D.C.",1,0.20584334211932157,0.3675930332377416,0.15662494533085852,0.8524462580680847,0.4756675958633423
+84,Nickelodeon was founded in 1979 by which company?,Nickelodeon.,1,0.20993635763521099,0.3574006187283512,0.12131797171537706,0.3674565553665161,0.29014116525650024
+85,Which element along with polonium did the Curies discover?,The Curies discovered the Curies.,1,0.2602274645152256,0.36514096921291256,0.18333491323794582,0.8002624809741974,0.3403170108795166
+86,In The Banana Splits what sort of animal was Snorky?,"The Banana Splits.I'm not sure if this is a good idea, but I'm not sure if I should be using the same setup for my new laptop. I'm using a laptop with a dual core processor, and I'm using",0,0.27706294940297993,0.3678790139399371,,0.8368953764438629,0.9199624732136726
+87,Who had an 80s No 1 hit with Can't Fight This Feeling?,The Beatles.,1,0.25320818790916455,0.36769076491935787,,0.9459286332130432,0.9164455085992813
+88,Which parallel was the truce line in the Korean War?,The truce line was the Korean War.,1,0.3020318957233531,0.3634204298171252,0.25989535547717385,0.5839691162109375,0.5047313272953033
+89,On a computer keyboard which letter is between A and D?,A.,1,0.35606223211043925,0.3672513888177223,,0.6634100079536438,0.49214959144592285
+90,"Which musical featured the song Flash Bang, Wallop?",The song was played in the background of the video.,1,0.2975430514335737,0.3678794178549577,,0.8753762394189835,0.8395055681467056
+91,What was Hitchcock's first sound movie?,The first sound movie was The Sound of Music.,1,0.24425432958830798,0.3614109229464353,0.20170947927295924,0.8017549365758896,0.9019329771399498
+92,Which newspaper did Jackie Kennedy work for just before her marriage?,The New York Times.,0,0.25352227765700847,0.3676618343715553,0.21795105829359962,0.3478233218193054,-1.1920928955078125e-07
+93,What are the international registration letters of a vehicle from Turkey?,The international registration letters are issued by the Turkish Ministry of Transport.,1,0.2661389137603802,0.36780885948160597,0.2685597651282312,0.31692105531692505,0.24141883850097656
+94,Who wrote The Turn Of The Screw in the 19th century and The Ambassadors in the 20th?,The Turn of the Screw.,0,0.24477802145061117,0.36690915367416455,,0.728758692741394,0.9333580508828163
+95,Which American nuclear submarine was the first to sail across the North Pole under the ice cap?,The USS Carl Vinson.,1,0.24469985211950407,0.36679408569331096,0.1967004185627403,0.6077897846698761,0.29490000009536743
+96,What was John Glenn/'s first spacecraft called?,The first spacecraft was the Apollo 11 spacecraft.,1,0.29734803045927,0.35764251923736,0.28844725064718485,0.7082236409187317,0.5596335232257843
+97,Which branch of medicine is concerned with disorders of the blood?,The blood is the most important organ in the body. It is the most important organ in the body. It is the most important organ in the body. It is the most important organ in the body. It is the most important organ in the body,0,0.1827921552536358,0.3678241325508492,,0.5503736436367035,0.5867437720298767
+98,Where was The Iron Triangle?,The Iron Triangle.,0,0.2537412883828568,0.36365441157717604,,0.7236824035644531,0.9292454048991203
+99,What is the correct name of laughing gas?,Laugh gas.,0,0.3111566936380059,0.3655621324049324,,0.8268842250108719,0.9089252576231956
