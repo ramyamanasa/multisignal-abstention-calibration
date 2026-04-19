@@ -1,0 +1,52 @@
+{
+  "exp_id": "exp002",
+  "description": "Fusion model with all 5 features, HaluEval 200q",
+  "config": {
+    "dataset": "HaluEval",
+    "n_questions": 200,
+    "threshold": 0.5
+  },
+  "metrics": {
+    "fusion_model": {
+      "auroc": 0.9225,
+      "ece": 0.0617,
+      "coverage": 0.375,
+      "accuracy": 1.0
+    },
+    "ablation": {
+      "mean_entropy_only": {
+        "auroc": 0.8787,
+        "ece": 0.0898
+      },
+      "max_entropy_only": {
+        "auroc": 0.9625,
+        "ece": 0.0784
+      },
+      "entity_entropy_only": {
+        "auroc": 0.5862,
+        "ece": 0.1093
+      },
+      "consistency_only": {
+        "auroc": 0.5388,
+        "ece": 0.0254
+      },
+      "disagreement_only": {
+        "auroc": 0.4887,
+        "ece": 0.1681
+      },
+      "entropy_all": {
+        "auroc": 0.9337,
+        "ece": 0.1076
+      },
+      "signals_2_and_3": {
+        "auroc": 0.5225,
+        "ece": 0.0804
+      },
+      "all_5_features": {
+        "auroc": 0.9225,
+        "ece": 0.0617
+      }
+    }
+  },
+  "notes": ""
+}
