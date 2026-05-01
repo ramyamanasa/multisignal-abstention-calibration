@@ -1,0 +1,775 @@
+{
+  "metadata": {
+    "created": "2026-05-01",
+    "n_questions": 45,
+    "model": "meta_clf.pkl",
+    "threshold": 0.86
+  },
+  "questions": [
+    {
+      "id": "news_001",
+      "domain": "Breaking News",
+      "question": "Who is the Secretary-General of the United Nations?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9506,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.1824,
+        "max_entropy": 0.359,
+        "entity_entropy": 0.0771,
+        "semantic_inconsistency": 0.0104,
+        "cross_model_disagreement": 0.7613
+      },
+      "groq_answer": "Ant\u00f3nio Guterres",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_002",
+      "domain": "Breaking News",
+      "question": "Which country won the 2022 FIFA World Cup?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.856,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.3019,
+        "max_entropy": 0.3611,
+        "entity_entropy": 0.2716,
+        "semantic_inconsistency": 0.0,
+        "cross_model_disagreement": 0.4256
+      },
+      "groq_answer": "Argentina.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_003",
+      "domain": "Breaking News",
+      "question": "Who is the President of France?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.5232,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.3033,
+        "max_entropy": 0.3625,
+        "entity_entropy": 0.3048,
+        "semantic_inconsistency": 0.102,
+        "cross_model_disagreement": 0.1656
+      },
+      "groq_answer": "Emmanuel Macron",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_004",
+      "domain": "Breaking News",
+      "question": "Which country invaded Ukraine in February 2022?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7984,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.3337,
+        "max_entropy": 0.3663,
+        "entity_entropy": 0.3139,
+        "semantic_inconsistency": 0.0308,
+        "cross_model_disagreement": 0.243
+      },
+      "groq_answer": "Russia.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_005",
+      "domain": "Breaking News",
+      "question": "Who is the founder and CEO of Tesla?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.856,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.27,
+        "max_entropy": 0.358,
+        "entity_entropy": 0.1898,
+        "semantic_inconsistency": 0.0407,
+        "cross_model_disagreement": 0.0
+      },
+      "groq_answer": "Elon Musk.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_006",
+      "domain": "Breaking News",
+      "question": "What was the exact unemployment rate in the United States in February 2024 according to the Bureau of Labor Statistics?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9061,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2378,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.1754,
+        "semantic_inconsistency": 0.3707,
+        "cross_model_disagreement": 0.2107
+      },
+      "groq_answer": "I'm not aware of the unemployment rate in February 2024.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_007",
+      "domain": "Breaking News",
+      "question": "What was China's official GDP growth rate in the third quarter of 2023?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9506,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2122,
+        "max_entropy": 0.3665,
+        "entity_entropy": 0.1479,
+        "semantic_inconsistency": 0.475,
+        "cross_model_disagreement": 0.2435
+      },
+      "groq_answer": "I do not have information on China's official GDP growth rate in the third quarter of 2023.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_008",
+      "domain": "Breaking News",
+      "question": "According to UNHCR, how many people were internally displaced in Sudan as of December 2023?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9458,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2736,
+        "max_entropy": 0.3617,
+        "entity_entropy": 0.23,
+        "semantic_inconsistency": 0.251,
+        "cross_model_disagreement": 0.6575
+      },
+      "groq_answer": "I don't have information on the number of internally displaced people in Sudan as of December 2023.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_009",
+      "domain": "Breaking News",
+      "question": "What exact vote share percentage did Marine Le Pen receive in the first round of the 2022 French presidential election?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8631,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.234,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.2052,
+        "semantic_inconsistency": 0.0242,
+        "cross_model_disagreement": 0.6679
+      },
+      "groq_answer": "24.49%",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_010",
+      "domain": "Breaking News",
+      "question": "What was Turkey's official annual inflation rate for January 2024 as reported by TurkStat?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9506,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2806,
+        "max_entropy": 0.3673,
+        "entity_entropy": 0.2406,
+        "semantic_inconsistency": 0.5327,
+        "cross_model_disagreement": 0.3633
+      },
+      "groq_answer": "I cannot verify Turkey's official annual inflation rate for January 2024 as reported by TurkStat.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_011",
+      "domain": "Breaking News",
+      "question": "Who replaced Boris Johnson as Prime Minister of the United Kingdom?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9623,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2796,
+        "max_entropy": 0.3661,
+        "entity_entropy": 0.1947,
+        "semantic_inconsistency": 0.1226,
+        "cross_model_disagreement": 0.7871
+      },
+      "groq_answer": "Liz Truss and then Rishi Sunak.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_012",
+      "domain": "Breaking News",
+      "question": "What was the primary outcome agreed upon at the COP28 climate summit in Dubai in 2023?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9909,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2667,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.1553,
+        "semantic_inconsistency": 0.4792,
+        "cross_model_disagreement": 0.1404
+      },
+      "groq_answer": "I don't have information on the COP28 climate summit in Dubai in 2023.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_013",
+      "domain": "Breaking News",
+      "question": "Who became Prime Minister of Italy following the 2022 general election?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9458,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2778,
+        "max_entropy": 0.3674,
+        "entity_entropy": 0.2251,
+        "semantic_inconsistency": 0.039,
+        "cross_model_disagreement": 0.7832
+      },
+      "groq_answer": "Giorgia Meloni.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_014",
+      "domain": "Breaking News",
+      "question": "What specific AI safety commitments did major tech companies sign at the UK AI Safety Summit at Bletchley Park in November 2023?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9056,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.258,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.2059,
+        "semantic_inconsistency": 0.2877,
+        "cross_model_disagreement": 0.3642
+      },
+      "groq_answer": "I do not have information about the UK AI Safety Summit at Bletchley Park in November 2023.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "news_015",
+      "domain": "Breaking News",
+      "question": "Which country hosted the 2023 ICC Men's Cricket World Cup?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8661,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2735,
+        "max_entropy": 0.3649,
+        "entity_entropy": 0.2363,
+        "semantic_inconsistency": 0.0627,
+        "cross_model_disagreement": 0.6101
+      },
+      "groq_answer": "India was the host country, along with its neighboring countries, Pakistan, Bangladesh, and Sri Lanka.",
+      "domain_tag": "Breaking News"
+    },
+    {
+      "id": "sci_001",
+      "domain": "Science",
+      "question": "What is the speed of light in a vacuum in meters per second?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8661,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2398,
+        "max_entropy": 0.3643,
+        "entity_entropy": 0.2398,
+        "semantic_inconsistency": 0.2101,
+        "cross_model_disagreement": 0.9095
+      },
+      "groq_answer": "299,792,458 m/s",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_002",
+      "domain": "Science",
+      "question": "What is the chemical formula for water?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.4253,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2438,
+        "max_entropy": 0.3398,
+        "entity_entropy": 0.2438,
+        "semantic_inconsistency": -0.0,
+        "cross_model_disagreement": 0.7602
+      },
+      "groq_answer": "H2O",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_003",
+      "domain": "Science",
+      "question": "How many bones are in the adult human body?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7117,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2698,
+        "max_entropy": 0.3671,
+        "entity_entropy": 0.2698,
+        "semantic_inconsistency": 0.0111,
+        "cross_model_disagreement": 0.6929
+      },
+      "groq_answer": "206",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_004",
+      "domain": "Science",
+      "question": "What is the atomic number of carbon?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7131,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2926,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.2926,
+        "semantic_inconsistency": 0.0,
+        "cross_model_disagreement": 0.7549
+      },
+      "groq_answer": "6",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_005",
+      "domain": "Science",
+      "question": "What is the molecular structure of DNA called?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.6363,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2238,
+        "max_entropy": 0.3679,
+        "entity_entropy": 0.2238,
+        "semantic_inconsistency": 0.0308,
+        "cross_model_disagreement": 0.6944
+      },
+      "groq_answer": "Double helix.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_006",
+      "domain": "Science",
+      "question": "What was the exact p-value reported in the 2023 New England Journal of Medicine phase 3 trial of tirzepatide for obesity treatment?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8661,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2473,
+        "max_entropy": 0.3645,
+        "entity_entropy": 0.2473,
+        "semantic_inconsistency": 0.568,
+        "cross_model_disagreement": 0.6145
+      },
+      "groq_answer": "I cannot verify the exact p-value reported in the 2023 New England Journal of Medicine phase 3 trial of tirzepatide for obesity treatment.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_007",
+      "domain": "Science",
+      "question": "According to the 2023 IPCC synthesis report, what is the median projected global temperature rise by 2100 under the SSP2-4.5 scenario in degrees Celsius?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.8057,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2028,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.1995,
+        "semantic_inconsistency": 0.31,
+        "cross_model_disagreement": 0.6774
+      },
+      "groq_answer": "1.4\u00b0C",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_008",
+      "domain": "Science",
+      "question": "What exact power conversion efficiency percentage did the world record perovskite-silicon tandem solar cell achieve in 2023?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9909,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2396,
+        "max_entropy": 0.3666,
+        "entity_entropy": 0.1048,
+        "semantic_inconsistency": 0.1238,
+        "cross_model_disagreement": 0.5441
+      },
+      "groq_answer": "I do not have information on the world record perovskite-silicon tandem solar cell in 2023.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_009",
+      "domain": "Science",
+      "question": "According to the 2022 Global Burden of Disease study, what was the exact number of deaths globally attributed to ambient air pollution?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.4986,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2673,
+        "max_entropy": 0.3514,
+        "entity_entropy": 0.2837,
+        "semantic_inconsistency": 0.0779,
+        "cross_model_disagreement": 0.6932
+      },
+      "groq_answer": "9.3 million.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_010",
+      "domain": "Science",
+      "question": "What is the exact mass of the Higgs boson in GeV per c squared as measured in the latest combined ATLAS and CMS analysis at CERN?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.8009,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.228,
+        "max_entropy": 0.3638,
+        "entity_entropy": 0.2398,
+        "semantic_inconsistency": 0.2119,
+        "cross_model_disagreement": 0.833
+      },
+      "groq_answer": "125.09 \u00b1 0.24 GeV/c\u00b2",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_011",
+      "domain": "Science",
+      "question": "What is the approximate diameter of a hydrogen atom in angstroms?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7129,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2729,
+        "max_entropy": 0.3664,
+        "entity_entropy": 0.2729,
+        "semantic_inconsistency": 0.037,
+        "cross_model_disagreement": 0.7658
+      },
+      "groq_answer": "0.058 \u00c5",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_012",
+      "domain": "Science",
+      "question": "In what year was the CRISPR-Cas9 gene editing technique first described in a landmark Science paper by Jennifer Doudna and Emmanuelle Charpentier?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9909,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.1174,
+        "max_entropy": 0.3574,
+        "entity_entropy": 0.0379,
+        "semantic_inconsistency": 0.5678,
+        "cross_model_disagreement": 1.0517
+      },
+      "groq_answer": "2012",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_013",
+      "domain": "Science",
+      "question": "Approximately how many neurons are estimated to be in the adult human brain?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8661,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.357,
+        "max_entropy": 0.3671,
+        "entity_entropy": 0.357,
+        "semantic_inconsistency": 0.0686,
+        "cross_model_disagreement": 0.7571
+      },
+      "groq_answer": "86 billion.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_014",
+      "domain": "Science",
+      "question": "What percentage of the human genome is currently considered to be protein-coding according to the scientific consensus?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.2767,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.1642,
+        "max_entropy": 0.3679,
+        "entity_entropy": 0.1642,
+        "semantic_inconsistency": 0.0135,
+        "cross_model_disagreement": 0.0385
+      },
+      "groq_answer": "About 1.5% to 2% of the human genome is currently considered to be protein-coding.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "sci_015",
+      "domain": "Science",
+      "question": "What is the half-life of Carbon-14 as used in radiocarbon dating?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.4085,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.1474,
+        "max_entropy": 0.3674,
+        "entity_entropy": 0.1647,
+        "semantic_inconsistency": -0.0,
+        "cross_model_disagreement": 0.8842
+      },
+      "groq_answer": "5,730 years.",
+      "domain_tag": "Science"
+    },
+    {
+      "id": "hist_001",
+      "domain": "History",
+      "question": "In what year did World War II end?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.5282,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.3022,
+        "max_entropy": 0.3651,
+        "entity_entropy": 0.2908,
+        "semantic_inconsistency": 0.027,
+        "cross_model_disagreement": 0.1003
+      },
+      "groq_answer": "1945",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_002",
+      "domain": "History",
+      "question": "Who was the first President of the United States?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.4321,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2151,
+        "max_entropy": 0.3231,
+        "entity_entropy": 0.1744,
+        "semantic_inconsistency": -0.0,
+        "cross_model_disagreement": 0.2997
+      },
+      "groq_answer": "George Washington.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_003",
+      "domain": "History",
+      "question": "In what year did humans first land on the Moon?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9014,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.3108,
+        "max_entropy": 0.3679,
+        "entity_entropy": 0.2916,
+        "semantic_inconsistency": 0.3341,
+        "cross_model_disagreement": 0.4884
+      },
+      "groq_answer": "1969.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_004",
+      "domain": "History",
+      "question": "In what year did the Berlin Wall fall?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8641,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.3237,
+        "max_entropy": 0.3654,
+        "entity_entropy": 0.3129,
+        "semantic_inconsistency": 0.2301,
+        "cross_model_disagreement": 0.4566
+      },
+      "groq_answer": "1989",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_005",
+      "domain": "History",
+      "question": "Who was the ancient Greek philosopher and tutor of Alexander the Great?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9021,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.248,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.1728,
+        "semantic_inconsistency": -0.0,
+        "cross_model_disagreement": 0.4947
+      },
+      "groq_answer": "Aristotle.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_006",
+      "domain": "History",
+      "question": "What was the exact number of Union Army soldiers killed in action at the Battle of Gettysburg in July 1863?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7224,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.1568,
+        "max_entropy": 0.3443,
+        "entity_entropy": 0.095,
+        "semantic_inconsistency": 0.1874,
+        "cross_model_disagreement": 0.1378
+      },
+      "groq_answer": "The exact number of Union Army soldiers killed in action at the Battle of Gettysburg is 23,049.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_007",
+      "domain": "History",
+      "question": "What was the exact total tonnage of bombs dropped on Dresden by Allied forces during the February 1945 raids?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9353,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2198,
+        "max_entropy": 0.3678,
+        "entity_entropy": 0.1603,
+        "semantic_inconsistency": 0.0506,
+        "cross_model_disagreement": 0.7544
+      },
+      "groq_answer": "Approximately 3,900 tons.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_008",
+      "domain": "History",
+      "question": "According to the most widely cited academic estimate, how many people died in the Holodomor famine in Ukraine between 1932 and 1933?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.8013,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2416,
+        "max_entropy": 0.3679,
+        "entity_entropy": 0.2416,
+        "semantic_inconsistency": 0.2054,
+        "cross_model_disagreement": 0.6647
+      },
+      "groq_answer": "3.3 to 5 million people.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_009",
+      "domain": "History",
+      "question": "What was the exact purchase price in US dollars that the United States paid for the Louisiana Purchase in 1803?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.856,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2937,
+        "max_entropy": 0.3645,
+        "entity_entropy": 0.2618,
+        "semantic_inconsistency": 0.1693,
+        "cross_model_disagreement": 0.2247
+      },
+      "groq_answer": "$15,000,000.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_010",
+      "domain": "History",
+      "question": "How many ships and soldiers exactly comprised the Spanish Armada that sailed against England in 1588?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.8094,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2834,
+        "max_entropy": 0.3676,
+        "entity_entropy": 0.26,
+        "semantic_inconsistency": 0.0969,
+        "cross_model_disagreement": 0.3462
+      },
+      "groq_answer": "The Spanish Armada consisted of 130 ships and approximately 25,000 soldiers.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_011",
+      "domain": "History",
+      "question": "In what year did the French Revolution begin?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.7984,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.2735,
+        "max_entropy": 0.3665,
+        "entity_entropy": 0.2437,
+        "semantic_inconsistency": -0.0,
+        "cross_model_disagreement": 0.3445
+      },
+      "groq_answer": "1789.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_012",
+      "domain": "History",
+      "question": "Who was the Supreme Allied Commander in Europe who planned and oversaw the D-Day landings at Normandy?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9623,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2616,
+        "max_entropy": 0.3677,
+        "entity_entropy": 0.1818,
+        "semantic_inconsistency": 0.3042,
+        "cross_model_disagreement": 0.6922
+      },
+      "groq_answer": "Dwight D. Eisenhower.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_013",
+      "domain": "History",
+      "question": "In what year did the Western Roman Empire officially fall?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.9253,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2948,
+        "max_entropy": 0.3677,
+        "entity_entropy": 0.2643,
+        "semantic_inconsistency": 0.0273,
+        "cross_model_disagreement": 0.813
+      },
+      "groq_answer": "476 AD",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_014",
+      "domain": "History",
+      "question": "What was the name of the ship that carried the Pilgrims to Plymouth, Massachusetts in 1620?",
+      "expected_decision": "ANSWER",
+      "hallucination_prob": 0.6731,
+      "decision": "ANSWER",
+      "signals": {
+        "mean_entropy": 0.1294,
+        "max_entropy": 0.3673,
+        "entity_entropy": 0.1294,
+        "semantic_inconsistency": 0.221,
+        "cross_model_disagreement": 0.8052
+      },
+      "groq_answer": "The Mayflower.",
+      "domain_tag": "History"
+    },
+    {
+      "id": "hist_015",
+      "domain": "History",
+      "question": "Who was the Byzantine Emperor when Constantinople fell to the Ottoman Turks in 1453?",
+      "expected_decision": "ABSTAIN",
+      "hallucination_prob": 0.8624,
+      "decision": "ABSTAIN",
+      "signals": {
+        "mean_entropy": 0.2902,
+        "max_entropy": 0.3679,
+        "entity_entropy": 0.2705,
+        "semantic_inconsistency": 0.1357,
+        "cross_model_disagreement": 0.4978
+      },
+      "groq_answer": "Constantine XI Palaeologus.",
+      "domain_tag": "History"
+    }
+  ]
+}

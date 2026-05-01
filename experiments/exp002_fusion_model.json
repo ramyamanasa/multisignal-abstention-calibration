@@ -1,50 +1,86 @@
 {
   "exp_id": "exp002",
-  "description": "Fusion model with all 5 features, HaluEval 200q",
+  "description": "Fusion model with all 5 features, HaluEval",
   "config": {
     "dataset": "HaluEval",
-    "n_questions": 200,
-    "threshold": 0.5
+    "threshold": 0.5,
+    "n_bootstrap": 1000
   },
   "metrics": {
     "fusion_model": {
-      "auroc": 0.99,
-      "ece": 0.0947,
-      "coverage": 0.4,
-      "accuracy": 1.0
+      "auroc": 0.8848,
+      "auroc_ci": [
+        0.8111,
+        0.9448
+      ],
+      "ece": 0.0907,
+      "coverage": 0.39,
+      "accuracy": 0.872
     },
     "ablation": {
       "mean_entropy_only": {
-        "auroc": 0.8787,
-        "ece": 0.0898
+        "auroc": 0.7518,
+        "auroc_ci": [
+          0.6522,
+          0.8529
+        ],
+        "ece": 0.1039
       },
       "max_entropy_only": {
-        "auroc": 0.9625,
-        "ece": 0.0784
+        "auroc": 0.8804,
+        "auroc_ci": [
+          0.8046,
+          0.9389
+        ],
+        "ece": 0.0569
       },
       "entity_entropy_only": {
-        "auroc": 0.5862,
-        "ece": 0.1093
+        "auroc": 0.622,
+        "auroc_ci": [
+          0.5045,
+          0.7294
+        ],
+        "ece": 0.1088
       },
       "consistency_only": {
-        "auroc": 0.5388,
-        "ece": 0.0254
+        "auroc": 0.4186,
+        "auroc_ci": [
+          0.3127,
+          0.5435
+        ],
+        "ece": 0.1622
       },
       "disagreement_only": {
-        "auroc": 0.4887,
-        "ece": 0.1681
+        "auroc": 0.4872,
+        "auroc_ci": [
+          0.3781,
+          0.5869
+        ],
+        "ece": 0.0087
       },
       "entropy_all": {
-        "auroc": 0.9925,
-        "ece": 0.0913
+        "auroc": 0.9096,
+        "auroc_ci": [
+          0.8371,
+          0.9623
+        ],
+        "ece": 0.0877
       },
       "signals_2_and_3": {
-        "auroc": 0.5225,
-        "ece": 0.0622
+        "auroc": 0.4082,
+        "auroc_ci": [
+          0.3038,
+          0.5246
+        ],
+        "ece": 0.1175
       },
       "all_5_features": {
-        "auroc": 0.99,
-        "ece": 0.0947
+        "auroc": 0.8848,
+        "auroc_ci": [
+          0.8111,
+          0.9448
+        ],
+        "ece": 0.0907
       }
     }
   },

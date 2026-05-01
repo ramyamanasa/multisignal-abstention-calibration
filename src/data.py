@@ -128,7 +128,7 @@ def build_feature_dataset(
             )
 
             # Signal 2: Groq consistency sampling
-            samples = generate_samples(question, n=n_samples)
+            samples = generate_samples(question, n=n_samples, temperature=1.0)
             consistency_signals = compute_consistency_signal(samples)
 
             # Signal 3: disagreement between Groq answer and opt-125m answer
@@ -191,7 +191,7 @@ def build_feature_dataset(
 
 if __name__ == "__main__":
     df = build_feature_dataset(
-        n_questions=200,
+        n_questions=500,
         n_samples=5,
         output_path="../data/processed/features.csv",
         log_path="../data/processed/raw_outputs.jsonl",

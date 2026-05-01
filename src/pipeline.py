@@ -50,7 +50,8 @@ def run_pipeline(question: str, threshold: float = 0.95) -> dict:
     )
 
     # Signal 2: Groq consistency sampling
-    samples = generate_samples(question, n=5)
+    samples = generate_samples(question, n=5, temperature=1.0)
+
     consistency_signals = compute_consistency_signal(samples)
 
     # Signal 3: cross-model disagreement
