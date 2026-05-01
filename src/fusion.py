@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
+from sklearn.metrics import roc_auc_score
 import pickle
 
 
@@ -35,6 +36,22 @@ def load_features(path: str = "../data/processed/features.csv"):
     return X, y, df
 
 
+def bootstrap_auroc_ci(y_true, y_prob, n_bootstrap: int = 1000, seed: int = 42):
+    """Return (auroc, ci_low, ci_high) with 95% bootstrap CI."""
+    rng = np.random.default_rng(seed)
+    aucs = []
+    n = len(y_true)
+    for _ in range(n_bootstrap):
+        idx = rng.integers(0, n, size=n)
+        yt = y_true[idx]
+        yp = y_prob[idx]
+        if len(np.unique(yt)) < 2:
+            continue
+        aucs.append(roc_auc_score(yt, yp))
+    aucs = np.array(aucs)
+    auroc = float(roc_auc_score(y_true, y_prob))
+    return auroc, float(np.percentile(aucs, 2.5)), float(np.percentile(aucs, 97.5))
+
 
 def train_classifier(X_train, y_train):
     pipeline = Pipeline([
@@ -50,6 +67,7 @@ def train_classifier(X_train, y_train):
     calibrated.fit(X_train, y_train)
     print("Classifier trained and calibrated.")
     return calibrated
+
 
 def predict_with_abstention(clf, X, threshold: float = 0.5):
     probs     = clf.predict_proba(X)[:, 1]
@@ -77,6 +95,7 @@ def run_experiment(
     test_size:     float = 0.2,
     val_size:      float = 0.2,
     threshold:     float = 0.5,
+    n_bootstrap:   int   = 1000,
 ):
     from evaluation import (
         compute_auroc,
@@ -107,12 +126,12 @@ def run_experiment(
     _, probs_test = predict_with_abstention(clf, X_test, threshold=threshold)
     probs_test    = np.array(probs_test)
 
-    auroc   = compute_auroc(y_test, probs_test)
+    auroc, ci_lo, ci_hi = bootstrap_auroc_ci(y_test, probs_test, n_bootstrap)
     ece     = compute_ece(y_test, probs_test)
     cov_acc = compute_coverage_accuracy(y_test, probs_test, threshold=threshold)
 
     print(f"\nFusion model results:")
-    print(f"  AUROC:    {auroc:.4f}")
+    print(f"  AUROC:    {auroc:.4f}  95% CI: [{ci_lo:.4f}, {ci_hi:.4f}]")
     print(f"  ECE:      {ece:.4f}")
     print(f"  Coverage: {cov_acc['coverage']:.3f}")
     print(f"  Accuracy: {cov_acc['accuracy']:.3f}")
@@ -126,7 +145,7 @@ def run_experiment(
         save_path="../data/processed/coverage_accuracy_curve.png"
     )
 
-    print("\nRunning ablation...")
+    print("\nRunning ablation (with 95% bootstrap CIs)...")
     ablation_results = {}
 
     subsets = {
@@ -145,17 +164,25 @@ def run_experiment(
         X_te     = X_test[:,  indices]
         clf_sub  = train_classifier(X_tr, y_train)
         _, probs = predict_with_abstention(clf_sub, X_te)
-        auc      = compute_auroc(y_test, np.array(probs))
-        ece_sub  = compute_ece(y_test,   np.array(probs))
+        probs_arr = np.array(probs)
+        auc, ci_lo_sub, ci_hi_sub = bootstrap_auroc_ci(
+            y_test, probs_arr, n_bootstrap
+        )
+        ece_sub = compute_ece(y_test, probs_arr)
         ablation_results[name] = {
-            "auroc": round(auc, 4),
-            "ece":   round(ece_sub, 4)
+            "auroc":    round(auc, 4),
+            "auroc_ci": [round(ci_lo_sub, 4), round(ci_hi_sub, 4)],
+            "ece":      round(ece_sub, 4),
         }
-        print(f"  {name:<30} AUROC: {auc:.4f}  ECE: {ece_sub:.4f}")
+        print(
+            f"  {name:<30} AUROC: {auc:.4f} "
+            f"[{ci_lo_sub:.4f}, {ci_hi_sub:.4f}]  ECE: {ece_sub:.4f}"
+        )
 
     results = {
         "fusion_model": {
             "auroc":    round(auroc, 4),
+            "auroc_ci": [round(ci_lo, 4), round(ci_hi, 4)],
             "ece":      round(ece, 4),
             "coverage": round(cov_acc["coverage"], 3),
             "accuracy": round(cov_acc["accuracy"], 3),
@@ -165,8 +192,8 @@ def run_experiment(
 
     log_experiment(
         exp_id="exp002",
-        description="Fusion model with all 5 features, HaluEval 200q",
-        config={"dataset": "HaluEval", "n_questions": 200, "threshold": threshold},
+        description="Fusion model with all 5 features, HaluEval",
+        config={"dataset": "HaluEval", "threshold": threshold, "n_bootstrap": n_bootstrap},
         metrics=results,
         output_path=output_path,
     )
