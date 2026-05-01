@@ -57,7 +57,7 @@ def signal_bars_html(signals: dict) -> str:
         pct   = min(100, max(0, width * 100))
         v_str = f"{val:.3f}" if val is not None else "—"
         rows += f"""
-        <div style="margin:9px 0;" title="{tip}">
+        <div style="margin:9px 0;">
           <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
             <span style="font-size:12px;color:#374151;font-weight:500;">{label}</span>
             <span style="font-size:12px;font-weight:700;color:{color};">{v_str}</span>
