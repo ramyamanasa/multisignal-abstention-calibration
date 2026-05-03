@@ -4,6 +4,7 @@ Multi-Signal Hallucination Abstention · STAT GR5293 | Spring 2026
 """
 
 import json
+import math
 import os
 import sys
 import gradio as gr
@@ -45,6 +46,33 @@ SIGNAL_META = {
     "semantic_inconsistency":   ("Semantic Inconsistency",    "Spread across 5 independent Groq samples — high = model keeps changing its answer"),
     "cross_model_disagreement": ("Cross-Model Disagreement",  "Embedding distance between small (opt-125m) and large (llama-3.1-8b) model answers"),
 }
+
+
+_REFUSAL_PATTERNS = [
+    "i don't know", "i do not know",
+    "i can't access", "i cannot access",
+    "i'm not able to", "i am not able to",
+    "i'm unable to", "i am unable to",
+    "don't have access to real-time", "do not have access to real-time",
+    "don't have information", "do not have information",
+    "cannot provide", "can't provide",
+    "i lack", "no information available",
+]
+
+
+def _safe_signal(v) -> float | None:
+    """Convert NaN float to None so signal bars render as '—' instead of 'nan'."""
+    if v is None:
+        return None
+    try:
+        return None if math.isnan(v) else float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _is_refusal(text: str) -> bool:
+    low = text.lower()
+    return any(p in low for p in _REFUSAL_PATTERNS)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -171,7 +199,7 @@ def coverage_html(threshold: float) -> str:
     </div>"""
 
 
-def decision_card_html(c: dict, threshold: float, matched_note: str = "", live: bool = False) -> str:
+def decision_card_html(c: dict, threshold: float, matched_note: str = "", live: bool = False, reason_override: str = "") -> str:
     decision = "ABSTAIN" if c["hallucination_prob"] >= threshold else "ANSWER"
     prob     = c["hallucination_prob"]
 
@@ -210,7 +238,7 @@ def decision_card_html(c: dict, threshold: float, matched_note: str = "", live: 
         <strong>{c.get('groq_answer', '—')}</strong>
       </div>
       <div style="font-size:13px;color:#374151;background:rgba(0,0,0,0.04);padding:10px 14px;border-radius:8px;line-height:1.6;">
-        {why_html(c, decision, threshold)}
+        {reason_override if reason_override else why_html(c, decision, threshold)}
       </div>
     </div>"""
 
@@ -245,21 +273,39 @@ def run_check(question_text: str, threshold: float):
                 )
             try:
                 result = _run_pipeline(question_text, threshold)
+
+                # Debug: print exact structure so we can inspect in terminal
+                print(f"[LIVE] keys: {list(result.keys())}")
+                print(f"[LIVE] entropy_signals:      {result.get('entropy_signals')}")
+                print(f"[LIVE] consistency_signals:  {result.get('consistency_signals')}")
+                print(f"[LIVE] disagreement_signals: {result.get('disagreement_signals')}")
+                print(f"[LIVE] answer: {result.get('answer')!r}")
+
+                # Convert NaN → None so signal bars show '—' instead of 'nan'
                 live_signals = {
-                    "mean_entropy":             result["entropy_signals"].get("mean_entropy"),
-                    "max_entropy":              result["entropy_signals"].get("max_entropy"),
-                    "entity_entropy":           result["entropy_signals"].get("entity_entropy"),
-                    "semantic_inconsistency":   result["consistency_signals"].get("semantic_inconsistency"),
-                    "cross_model_disagreement": result["disagreement_signals"].get("cross_model_disagreement"),
+                    "mean_entropy":             _safe_signal(result["entropy_signals"].get("mean_entropy")),
+                    "max_entropy":              _safe_signal(result["entropy_signals"].get("max_entropy")),
+                    "entity_entropy":           _safe_signal(result["entropy_signals"].get("entity_entropy")),
+                    "semantic_inconsistency":   _safe_signal(result["consistency_signals"].get("semantic_inconsistency")),
+                    "cross_model_disagreement": _safe_signal(result["disagreement_signals"].get("cross_model_disagreement")),
                 }
                 live_c = {
-                    "question":          question_text,
-                    "groq_answer":       result["answer"],
-                    "hallucination_prob": result["hallucination_probability"],
-                    "signals":           live_signals,
+                    "question":           question_text,
+                    "groq_answer":        result["answer"],
+                    "hallucination_prob":  result["hallucination_probability"],
+                    "signals":            live_signals,
                 }
+
+                reason_override = ""
+                if _is_refusal(result.get("answer", "")):
+                    live_c["hallucination_prob"] = 1.0
+                    reason_override = (
+                        "🚫 <b>Abstaining because</b> the model does not have "
+                        "information to answer this question."
+                    )
+
                 return (
-                    decision_card_html(live_c, threshold, live=True),
+                    decision_card_html(live_c, threshold, live=True, reason_override=reason_override),
                     signal_bars_html(live_signals),
                     cov,
                 )
