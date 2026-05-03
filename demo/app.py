@@ -6,16 +6,19 @@ Multi-Signal Hallucination Abstention · STAT GR5293 | Spring 2026
 import json
 import os
 import sys
-import difflib
 import gradio as gr
 
-# Allow importing pipeline from src/
+# Allow importing pipeline and signals from src/
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src'))
 try:
     from pipeline import run_pipeline as _run_pipeline
+    from signals import embedder as _embedder
+    from sentence_transformers import util as _st_util
     _PIPELINE_AVAILABLE = True
 except Exception as _pipeline_import_err:
     _PIPELINE_AVAILABLE = False
+    _embedder = None
+    _st_util = None
 
 CACHE_PATH = "../data/processed/news_demo_cache.json"
 DEFAULT_THRESHOLD = 0.86
@@ -29,6 +32,12 @@ BY_DOMAIN = {d: [q for q in QUESTIONS if q["domain"] == d] for d in DOMAINS}
 BY_Q      = {q["question"]: q for q in QUESTIONS}
 ALL_Q_TEXT = list(BY_Q.keys())
 
+# Encode all cached questions once at startup for semantic matching
+_CACHE_EMBEDDINGS = (
+    _embedder.encode(ALL_Q_TEXT, convert_to_tensor=True)
+    if _embedder is not None else None
+)
+
 SIGNAL_META = {
     "mean_entropy":             ("Mean Token Entropy",       "Average uncertainty across all generated tokens"),
     "max_entropy":              ("Max Token Entropy",         "Uncertainty at the single most uncertain word"),
@@ -40,16 +49,14 @@ SIGNAL_META = {
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def best_cache_match(text: str) -> tuple[str | None, float]:
-    """Return (best_matching_cached_question, SequenceMatcher_ratio)."""
-    text = text.strip()
-    best_q, best_ratio = None, 0.0
-    for q in ALL_Q_TEXT:
-        ratio = difflib.SequenceMatcher(None, text.lower(), q.lower()).ratio()
-        if ratio > best_ratio:
-            best_ratio = ratio
-            best_q = q
-    return best_q, best_ratio
+def semantic_cache_match(text: str) -> tuple[str | None, float]:
+    """Return (best_matching_cached_question, cosine_similarity) via sentence embeddings."""
+    if _CACHE_EMBEDDINGS is None or _embedder is None:
+        return None, 0.0
+    q_emb = _embedder.encode(text.strip(), convert_to_tensor=True)
+    sims = _st_util.cos_sim(q_emb, _CACHE_EMBEDDINGS)[0]
+    best_idx = int(sims.argmax())
+    return ALL_Q_TEXT[best_idx], float(sims[best_idx])
 
 
 def signal_bars_html(signals: dict) -> str:
@@ -222,8 +229,8 @@ def run_check(question_text: str, threshold: float):
     if question_text in BY_Q:
         c = BY_Q[question_text]
     else:
-        best_q, best_ratio = best_cache_match(question_text)
-        if best_ratio >= 0.55:
+        best_q, best_sim = semantic_cache_match(question_text)
+        if best_sim >= 0.75:
             c = BY_Q[best_q]
             if best_q != question_text:
                 matched_note = best_q
