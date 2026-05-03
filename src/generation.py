@@ -175,7 +175,7 @@ def generate_model2_answer(
         answer_text (str)
     """
     response = groq_client.chat.completions.create(
-        model=PRIMARY_MODEL,
+        model=SECONDARY_MODEL,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT_2},
             {"role": "user",   "content": question},

@@ -16,6 +16,7 @@ We compute 3 signals on each (question, answer) pair:
 """
 
 import json
+import time
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -79,29 +80,47 @@ def score_answer_with_logprobs(question: str, answer: str, local_tokenizer, loca
 # ---------------------------------------------------------------------------
 
 def build_feature_dataset(
-    n_questions: int = 200,
+    n_questions: int = 2000,
     n_samples: int = 5,
     output_path: str = "../data/processed/features.csv",
     log_path: str = "../data/processed/raw_outputs.jsonl",
+    checkpoint_path: str = "../data/processed/features_checkpoint.csv",
 ):
     """
     Loads HaluEval, computes signals on provided answers,
     saves feature CSV and raw outputs.
+
+    Resumes from checkpoint_path if it already exists (skips processed IDs).
+    Saves a checkpoint every 50 newly processed examples.
+    Sleeps 2 seconds between Groq API call groups to respect rate limits.
     """
+    import torch
+    from transformers import AutoTokenizer, AutoModelForCausalLM
+
     print("Loading HaluEval qa_samples...")
     dataset = load_dataset("pminervini/HaluEval", "qa_samples", split="data")
 
     # Balance the dataset: equal hallucinated and non-hallucinated
-    hal_examples     = [x for x in dataset if x["hallucination"] == "yes"]
-    nonhal_examples  = [x for x in dataset if x["hallucination"] == "no"]
+    hal_examples    = [x for x in dataset if x["hallucination"] == "yes"]
+    nonhal_examples = [x for x in dataset if x["hallucination"] == "no"]
 
-    n_each = n_questions // 2
+    n_each   = n_questions // 2
     selected = hal_examples[:n_each] + nonhal_examples[:n_each]
     print(f"Selected {len(selected)} examples ({n_each} hallucinated, {n_each} non-hallucinated)")
 
-    # Load local model for Signal 1
-    import torch
-    from transformers import AutoTokenizer, AutoModelForCausalLM
+    # ── Resume from checkpoint ────────────────────────────────────────────────
+    processed_ids   = set()
+    checkpoint_rows = []
+    if Path(checkpoint_path).exists():
+        df_ckpt         = pd.read_csv(checkpoint_path)
+        processed_ids   = set(df_ckpt["question_id"].tolist())
+        checkpoint_rows = df_ckpt.to_dict("records")
+        print(f"Resuming: {len(processed_ids)} examples already in checkpoint.")
+
+    n_to_process = len(selected) - len(processed_ids)
+    print(f"Examples remaining to process: {n_to_process}")
+
+    # ── Load local model for Signal 1 ────────────────────────────────────────
     print("Loading opt-125m for Signal 1 scoring...")
     local_tokenizer = AutoTokenizer.from_pretrained("facebook/opt-125m")
     local_model     = AutoModelForCausalLM.from_pretrained(
@@ -110,68 +129,114 @@ def build_feature_dataset(
     local_model.eval()
     print("opt-125m loaded.")
 
-    rows     = []
-    raw_logs = []
+    rows        = []
+    start_time  = time.time()
+    n_processed = 0
 
-    for i, item in enumerate(tqdm(selected)):
-        question     = item["question"]
-        answer       = item["answer"]
-        is_hallucination = 1 if item["hallucination"] == "yes" else 0
+    # Append to log file so resume doesn't erase prior entries
+    Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+    log_file = open(log_path, "a")
 
-        try:
-            # Signal 1: score the provided answer with opt-125m
-            scored = score_answer_with_logprobs(
-                question, answer, local_tokenizer, local_model
-            )
-            entropy_signals = compute_entropy_signal(
-                scored["token_logprobs"], scored["tokens"]
-            )
+    try:
+        with tqdm(total=n_to_process, desc="Processing") as pbar:
+            for i, item in enumerate(selected):
 
-            # Signal 2: Groq consistency sampling
-            samples = generate_samples(question, n=n_samples, temperature=1.0)
-            consistency_signals = compute_consistency_signal(samples)
+                # ── Skip already-processed examples ───────────────────────────
+                if i in processed_ids:
+                    continue
 
-            # Signal 3: disagreement between Groq answer and opt-125m answer
-            groq_answer    = generate_model2_answer(question)
-            opt_answer     = generate_with_logprobs(question)["answer_text"]
-            disagreement_signals = compute_disagreement_signal(groq_answer, opt_answer)
+                question         = item["question"]
+                answer           = item["answer"]
+                is_hallucination = 1 if item["hallucination"] == "yes" else 0
 
-            fv = build_feature_vector(
-                entropy_signals, consistency_signals, disagreement_signals
-            )
+                try:
+                    # Signal 1: score the provided answer with opt-125m
+                    scored = score_answer_with_logprobs(
+                        question, answer, local_tokenizer, local_model
+                    )
+                    entropy_signals = compute_entropy_signal(
+                        scored["token_logprobs"], scored["tokens"]
+                    )
 
-            row = {
-                "question_id":              i,
-                "question":                 question,
-                "answer":                   answer,
-                "is_hallucination":         is_hallucination,
-                "mean_entropy":             fv[0],
-                "max_entropy":              fv[1],
-                "entity_entropy":           fv[2],
-                "semantic_inconsistency":   fv[3],
-                "cross_model_disagreement": fv[4],
-            }
-            rows.append(row)
+                    # Signal 2: Groq consistency sampling
+                    samples = generate_samples(question, n=n_samples, temperature=1.0)
+                    time.sleep(2)
+                    consistency_signals = compute_consistency_signal(samples)
 
-            raw_logs.append({
-                "question_id":   i,
-                "question":      question,
-                "answer":        answer,
-                "label":         is_hallucination,
-                "groq_answer":   groq_answer,
-                "opt_answer":    opt_answer,
-                "samples":       samples,
-                "token_logprobs": scored["token_logprobs"],
-            })
+                    # Signal 3: disagreement between Groq (secondary) and opt-125m
+                    groq_answer          = generate_model2_answer(question)
+                    time.sleep(2)
+                    opt_answer           = generate_with_logprobs(question)["answer_text"]
+                    disagreement_signals = compute_disagreement_signal(groq_answer, opt_answer)
 
-        except Exception as e:
-            print(f"Error on question {i}: {e}")
-            continue
+                    fv = build_feature_vector(
+                        entropy_signals, consistency_signals, disagreement_signals
+                    )
 
-    # Save
-    df = pd.DataFrame(rows)
+                    row = {
+                        "question_id":              i,
+                        "question":                 question,
+                        "answer":                   answer,
+                        "is_hallucination":         is_hallucination,
+                        "mean_entropy":             fv[0],
+                        "max_entropy":              fv[1],
+                        "entity_entropy":           fv[2],
+                        "semantic_inconsistency":   fv[3],
+                        "cross_model_disagreement": fv[4],
+                    }
+                    rows.append(row)
+
+                    log_entry = {
+                        "question_id":    i,
+                        "question":       question,
+                        "answer":         answer,
+                        "label":          is_hallucination,
+                        "groq_answer":    groq_answer,
+                        "opt_answer":     opt_answer,
+                        "samples":        samples,
+                        "token_logprobs": scored["token_logprobs"],
+                    }
+                    log_file.write(json.dumps(log_entry) + "\n")
+                    log_file.flush()
+
+                    n_processed += 1
+
+                    # ── Progress + ETA ─────────────────────────────────────────
+                    elapsed   = time.time() - start_time
+                    rate      = n_processed / elapsed
+                    remaining = n_to_process - n_processed
+                    eta_s     = remaining / rate if rate > 0 else 0
+                    if eta_s >= 3600:
+                        eta_str = f"{eta_s / 3600:.1f}h"
+                    elif eta_s >= 60:
+                        eta_str = f"{eta_s / 60:.1f}m"
+                    else:
+                        eta_str = f"{eta_s:.0f}s"
+                    total_done = len(checkpoint_rows) + n_processed
+                    pbar.set_postfix({"total": total_done, "ETA": eta_str})
+                    pbar.update(1)
+
+                    # ── Checkpoint every 50 new rows ───────────────────────────
+                    if n_processed % 50 == 0:
+                        all_so_far = checkpoint_rows + rows
+                        pd.DataFrame(all_so_far).to_csv(checkpoint_path, index=False)
+                        tqdm.write(
+                            f"[checkpoint] {len(all_so_far)} rows → {checkpoint_path}"
+                        )
+
+                except Exception as e:
+                    tqdm.write(f"[error] question {i}: {e}")
+                    continue
+
+    finally:
+        log_file.close()
+
+    # ── Final save ────────────────────────────────────────────────────────────
+    all_rows = checkpoint_rows + rows
+    df = pd.DataFrame(all_rows)
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
+    df.to_csv(checkpoint_path, index=False)  # sync checkpoint with final state
 
     print(f"\nFeature CSV saved to {output_path}")
     print(f"Shape: {df.shape}")
@@ -180,10 +245,6 @@ def build_feature_dataset(
     print(f"\nFeature preview:")
     print(df[["mean_entropy", "max_entropy", "entity_entropy",
               "semantic_inconsistency", "cross_model_disagreement"]].describe())
-
-    with open(log_path, "w") as f:
-        for entry in raw_logs:
-            f.write(json.dumps(entry) + "\n")
     print(f"Raw outputs saved to {log_path}")
 
     return df
@@ -191,8 +252,9 @@ def build_feature_dataset(
 
 if __name__ == "__main__":
     df = build_feature_dataset(
-        n_questions=500,
+        n_questions=2000,
         n_samples=5,
         output_path="../data/processed/features.csv",
         log_path="../data/processed/raw_outputs.jsonl",
+        checkpoint_path="../data/processed/features_checkpoint.csv",
     )
