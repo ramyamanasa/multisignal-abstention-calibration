@@ -53,6 +53,62 @@ def bootstrap_auroc_ci(y_true, y_prob, n_bootstrap: int = 1000, seed: int = 42):
     return auroc, float(np.percentile(aucs, 2.5)), float(np.percentile(aucs, 97.5))
 
 
+def select_threshold(y_val, probs_val, target_coverage: float = 0.5) -> dict:
+    """
+    Find the threshold on the validation set whose coverage is closest to
+    target_coverage; break ties by maximising accuracy on answered questions.
+    """
+    from evaluation import compute_coverage_accuracy
+    y_val     = np.array(y_val)
+    probs_val = np.array(probs_val)
+    best      = None
+    best_dist = float("inf")
+    for t in np.linspace(0.01, 0.99, 990):
+        r    = compute_coverage_accuracy(y_val, probs_val, threshold=float(t))
+        dist = abs(r["coverage"] - target_coverage)
+        if best is None or dist < best_dist or (
+            abs(dist - best_dist) < 1e-6 and r["accuracy"] > best["accuracy_on_answered"]
+        ):
+            best_dist = dist
+            best = {
+                "target_coverage":    round(target_coverage, 2),
+                "threshold":          round(float(t), 4),
+                "coverage":           round(r["coverage"], 4),
+                "accuracy_on_answered": round(r["accuracy"], 4),
+            }
+    return best
+
+
+def permutation_test_auroc(
+    y_true, probs_fusion, probs_single, n_permutations: int = 1000, seed: int = 42
+) -> float:
+    """
+    One-sided paired permutation test.
+    H0: AUROC(single) >= AUROC(fusion).
+    Returns p-value; low value means fusion is significantly better than the
+    single-signal baseline.
+    """
+    rng          = np.random.default_rng(seed)
+    y_true       = np.array(y_true)
+    probs_fusion = np.array(probs_fusion)
+    probs_single = np.array(probs_single)
+    observed_delta = (
+        roc_auc_score(y_true, probs_fusion) - roc_auc_score(y_true, probs_single)
+    )
+    n = len(y_true)
+    extreme = 0
+    for _ in range(n_permutations):
+        swap        = rng.random(n) < 0.5
+        perm_fusion = np.where(swap, probs_single, probs_fusion)
+        perm_single = np.where(swap, probs_fusion, probs_single)
+        perm_delta  = (
+            roc_auc_score(y_true, perm_fusion) - roc_auc_score(y_true, perm_single)
+        )
+        if perm_delta >= observed_delta:
+            extreme += 1
+    return extreme / n_permutations
+
+
 def train_classifier(X_train, y_train):
     pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="mean")),
@@ -101,6 +157,7 @@ def run_experiment(
         compute_auroc,
         compute_ece,
         compute_coverage_accuracy,
+        compute_operating_points,
         plot_reliability_diagram,
         plot_coverage_accuracy_curve,
         log_experiment,
@@ -125,6 +182,8 @@ def run_experiment(
 
     _, probs_test = predict_with_abstention(clf, X_test, threshold=threshold)
     probs_test    = np.array(probs_test)
+    _, probs_val_list = predict_with_abstention(clf, X_val, threshold=threshold)
+    probs_val         = np.array(probs_val_list)
 
     auroc, ci_lo, ci_hi = bootstrap_auroc_ci(y_test, probs_test, n_bootstrap)
     ece     = compute_ece(y_test, probs_test)
@@ -145,7 +204,21 @@ def run_experiment(
         save_path="../data/processed/coverage_accuracy_curve.png"
     )
 
-    print("\nRunning ablation (with 95% bootstrap CIs)...")
+    print("\nOperating points across fixed thresholds (test set):")
+    operating_points = compute_operating_points(y_test, probs_test)
+
+    print("\nCoverage-aware threshold selection (validation set):")
+    threshold_selection = []
+    for tc in [0.3, 0.5, 0.7]:
+        sel = select_threshold(y_val, probs_val, target_coverage=tc)
+        threshold_selection.append(sel)
+        print(
+            f"  target={tc:.1f}  →  threshold={sel['threshold']:.4f}  "
+            f"coverage={sel['coverage']:.4f}  "
+            f"accuracy={sel['accuracy_on_answered']:.4f}"
+        )
+
+    print("\nRunning ablation (with 95% bootstrap CIs and permutation tests)...")
     ablation_results = {}
 
     subsets = {
@@ -169,14 +242,24 @@ def run_experiment(
             y_test, probs_arr, n_bootstrap
         )
         ece_sub = compute_ece(y_test, probs_arr)
+
+        if name == "all_5_features":
+            p_val = None  # same model as fusion — skip test
+        else:
+            p_val = permutation_test_auroc(
+                y_test, probs_test, probs_arr, n_permutations=n_bootstrap
+            )
+
         ablation_results[name] = {
-            "auroc":    round(auc, 4),
-            "auroc_ci": [round(ci_lo_sub, 4), round(ci_hi_sub, 4)],
-            "ece":      round(ece_sub, 4),
+            "auroc":             round(auc, 4),
+            "auroc_ci":          [round(ci_lo_sub, 4), round(ci_hi_sub, 4)],
+            "ece":               round(ece_sub, 4),
+            "p_value_vs_fusion": round(p_val, 4) if p_val is not None else None,
         }
+        pval_str = f"  p={p_val:.4f}" if p_val is not None else "  p=N/A (same model)"
         print(
             f"  {name:<30} AUROC: {auc:.4f} "
-            f"[{ci_lo_sub:.4f}, {ci_hi_sub:.4f}]  ECE: {ece_sub:.4f}"
+            f"[{ci_lo_sub:.4f}, {ci_hi_sub:.4f}]  ECE: {ece_sub:.4f}{pval_str}"
         )
 
     results = {
@@ -187,7 +270,9 @@ def run_experiment(
             "coverage": round(cov_acc["coverage"], 3),
             "accuracy": round(cov_acc["accuracy"], 3),
         },
-        "ablation": ablation_results,
+        "operating_points":    operating_points,
+        "threshold_selection": threshold_selection,
+        "ablation":            ablation_results,
     }
 
     log_experiment(

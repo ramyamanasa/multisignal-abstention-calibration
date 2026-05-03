@@ -42,6 +42,32 @@ def compute_coverage_accuracy(y_true, y_prob, threshold: float = 0.5) -> dict:
     return {"coverage": float(coverage), "accuracy": float(accuracy)}
 
 
+def compute_operating_points(
+    y_true, y_prob, thresholds=None
+) -> list:
+    """
+    Report coverage and accuracy at a fixed set of operating-point thresholds.
+    Prints a formatted table and returns a list of dicts.
+    """
+    if thresholds is None:
+        thresholds = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    y_true = np.array(y_true)
+    y_prob = np.array(y_prob)
+
+    print(f"\n{'Threshold':>10}  {'Coverage':>10}  {'Acc@Answered':>14}")
+    print("-" * 40)
+    rows = []
+    for t in thresholds:
+        r = compute_coverage_accuracy(y_true, y_prob, threshold=t)
+        rows.append({
+            "threshold":            t,
+            "coverage":             round(r["coverage"], 4),
+            "accuracy_on_answered": round(r["accuracy"], 4),
+        })
+        print(f"{t:>10.2f}  {r['coverage']:>10.4f}  {r['accuracy']:>14.4f}")
+    return rows
+
+
 def plot_reliability_diagram(
     y_true, y_prob, n_bins: int = 10, save_path: str = None
 ):

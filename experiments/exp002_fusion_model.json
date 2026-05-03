@@ -17,6 +17,63 @@
       "coverage": 0.39,
       "accuracy": 0.872
     },
+    "operating_points": [
+      {
+        "threshold": 0.3,
+        "coverage": 0.32,
+        "accuracy_on_answered": 0.9688
+      },
+      {
+        "threshold": 0.4,
+        "coverage": 0.34,
+        "accuracy_on_answered": 0.9412
+      },
+      {
+        "threshold": 0.5,
+        "coverage": 0.39,
+        "accuracy_on_answered": 0.8718
+      },
+      {
+        "threshold": 0.6,
+        "coverage": 0.43,
+        "accuracy_on_answered": 0.814
+      },
+      {
+        "threshold": 0.7,
+        "coverage": 0.49,
+        "accuracy_on_answered": 0.7959
+      },
+      {
+        "threshold": 0.8,
+        "coverage": 0.57,
+        "accuracy_on_answered": 0.7544
+      },
+      {
+        "threshold": 0.9,
+        "coverage": 0.73,
+        "accuracy_on_answered": 0.6438
+      }
+    ],
+    "threshold_selection": [
+      {
+        "target_coverage": 0.3,
+        "threshold": 0.0239,
+        "coverage": 0.32,
+        "accuracy_on_answered": 0.9688
+      },
+      {
+        "target_coverage": 0.5,
+        "threshold": 0.6095,
+        "coverage": 0.5,
+        "accuracy_on_answered": 0.9
+      },
+      {
+        "target_coverage": 0.7,
+        "threshold": 0.8661,
+        "coverage": 0.69,
+        "accuracy_on_answered": 0.6957
+      }
+    ],
     "ablation": {
       "mean_entropy_only": {
         "auroc": 0.7518,
@@ -24,7 +81,8 @@
           0.6522,
           0.8529
         ],
-        "ece": 0.1039
+        "ece": 0.1039,
+        "p_value_vs_fusion": 0.001
       },
       "max_entropy_only": {
         "auroc": 0.8804,
@@ -32,7 +90,8 @@
           0.8046,
           0.9389
         ],
-        "ece": 0.0569
+        "ece": 0.0569,
+        "p_value_vs_fusion": 0.441
       },
       "entity_entropy_only": {
         "auroc": 0.622,
@@ -40,7 +99,8 @@
           0.5045,
           0.7294
         ],
-        "ece": 0.1088
+        "ece": 0.1088,
+        "p_value_vs_fusion": 0.0
       },
       "consistency_only": {
         "auroc": 0.4186,
@@ -48,7 +108,8 @@
           0.3127,
           0.5435
         ],
-        "ece": 0.1622
+        "ece": 0.1622,
+        "p_value_vs_fusion": 0.0
       },
       "disagreement_only": {
         "auroc": 0.4872,
@@ -56,7 +117,8 @@
           0.3781,
           0.5869
         ],
-        "ece": 0.0087
+        "ece": 0.0087,
+        "p_value_vs_fusion": 0.0
       },
       "entropy_all": {
         "auroc": 0.9096,
@@ -64,7 +126,8 @@
           0.8371,
           0.9623
         ],
-        "ece": 0.0877
+        "ece": 0.0877,
+        "p_value_vs_fusion": 0.975
       },
       "signals_2_and_3": {
         "auroc": 0.4082,
@@ -72,7 +135,8 @@
           0.3038,
           0.5246
         ],
-        "ece": 0.1175
+        "ece": 0.1175,
+        "p_value_vs_fusion": 0.0
       },
       "all_5_features": {
         "auroc": 0.8848,
@@ -80,7 +144,8 @@
           0.8111,
           0.9448
         ],
-        "ece": 0.0907
+        "ece": 0.0907,
+        "p_value_vs_fusion": null
       }
     }
   },
