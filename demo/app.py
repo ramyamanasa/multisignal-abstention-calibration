@@ -4,8 +4,18 @@ Multi-Signal Hallucination Abstention · STAT GR5293 | Spring 2026
 """
 
 import json
+import os
+import sys
 import difflib
 import gradio as gr
+
+# Allow importing pipeline from src/
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src'))
+try:
+    from pipeline import run_pipeline as _run_pipeline
+    _PIPELINE_AVAILABLE = True
+except Exception as _pipeline_import_err:
+    _PIPELINE_AVAILABLE = False
 
 CACHE_PATH = "../data/processed/news_demo_cache.json"
 DEFAULT_THRESHOLD = 0.86
@@ -30,16 +40,16 @@ SIGNAL_META = {
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def fuzzy_match(text: str) -> str | None:
+def best_cache_match(text: str) -> tuple[str | None, float]:
+    """Return (best_matching_cached_question, SequenceMatcher_ratio)."""
     text = text.strip()
-    hits = difflib.get_close_matches(text, ALL_Q_TEXT, n=1, cutoff=0.3)
-    if hits:
-        return hits[0]
-    low = text.lower()
+    best_q, best_ratio = None, 0.0
     for q in ALL_Q_TEXT:
-        if low in q.lower() or q.lower() in low:
-            return q
-    return None
+        ratio = difflib.SequenceMatcher(None, text.lower(), q.lower()).ratio()
+        if ratio > best_ratio:
+            best_ratio = ratio
+            best_q = q
+    return best_q, best_ratio
 
 
 def signal_bars_html(signals: dict) -> str:
@@ -154,7 +164,7 @@ def coverage_html(threshold: float) -> str:
     </div>"""
 
 
-def decision_card_html(c: dict, threshold: float, matched_note: str = "") -> str:
+def decision_card_html(c: dict, threshold: float, matched_note: str = "", live: bool = False) -> str:
     decision = "ABSTAIN" if c["hallucination_prob"] >= threshold else "ANSWER"
     prob     = c["hallucination_prob"]
 
@@ -168,6 +178,11 @@ def decision_card_html(c: dict, threshold: float, matched_note: str = "") -> str
         f"Matched to: <em>{matched_note}</em></div>"
         if matched_note else ""
     )
+    live_badge = (
+        "<span style='background:#6366f1;color:white;padding:3px 10px;border-radius:999px;"
+        "font-size:11px;font-weight:700;vertical-align:middle;'>LIVE</span>"
+        if live else ""
+    )
 
     return f"""
     <div style="padding:22px;background:{bg};border-radius:16px;border:3px solid {border};font-family:system-ui,sans-serif;">
@@ -178,6 +193,7 @@ def decision_card_html(c: dict, threshold: float, matched_note: str = "") -> str
         <span style="background:{badge};color:white;padding:5px 14px;border-radius:999px;font-size:13px;font-weight:600;">
           P(hallucination) = {prob:.3f}
         </span>
+        {live_badge}
       </div>
       <div style="font-size:14px;color:#111827;margin-bottom:6px;">
         <span style="color:#6b7280;font-weight:500;">Q:</span> {c['question']}
@@ -206,19 +222,47 @@ def run_check(question_text: str, threshold: float):
     if question_text in BY_Q:
         c = BY_Q[question_text]
     else:
-        hit = fuzzy_match(question_text)
-        if hit:
-            c = BY_Q[hit]
-            if hit != question_text:
-                matched_note = hit
+        best_q, best_ratio = best_cache_match(question_text)
+        if best_ratio >= 0.55:
+            c = BY_Q[best_q]
+            if best_q != question_text:
+                matched_note = best_q
         else:
-            return (
-                "<div style='padding:20px;background:#fef9c3;border-radius:12px;border:2px solid #facc15;"
-                "font-family:system-ui,sans-serif;'><b>❓ Not in cache</b> — No close match found. "
-                "Try a preset question from the tabs above.</div>",
-                "",
-                cov,
-            )
+            # No close cache match — run the live pipeline
+            if not _PIPELINE_AVAILABLE:
+                return (
+                    "<div style='padding:20px;background:#fef9c3;border-radius:12px;border:2px solid #facc15;"
+                    "font-family:system-ui,sans-serif;'><b>⚠️ Pipeline unavailable</b> — "
+                    "Could not load pipeline module. Try a preset question from the tabs above.</div>",
+                    "", cov,
+                )
+            try:
+                result = _run_pipeline(question_text, threshold)
+                live_signals = {
+                    "mean_entropy":             result["entropy_signals"].get("mean_entropy"),
+                    "max_entropy":              result["entropy_signals"].get("max_entropy"),
+                    "entity_entropy":           result["entropy_signals"].get("entity_entropy"),
+                    "semantic_inconsistency":   result["consistency_signals"].get("semantic_inconsistency"),
+                    "cross_model_disagreement": result["disagreement_signals"].get("cross_model_disagreement"),
+                }
+                live_c = {
+                    "question":          question_text,
+                    "groq_answer":       result["answer"],
+                    "hallucination_prob": result["hallucination_probability"],
+                    "signals":           live_signals,
+                }
+                return (
+                    decision_card_html(live_c, threshold, live=True),
+                    signal_bars_html(live_signals),
+                    cov,
+                )
+            except Exception:
+                return (
+                    "<div style='padding:20px;background:#fef2f2;border-radius:12px;border:2px solid #ef4444;"
+                    "font-family:system-ui,sans-serif;'><b>Signal computation failed.</b> "
+                    "Check your Groq API connection and try again.</div>",
+                    "", cov,
+                )
 
     return (
         decision_card_html(c, threshold, matched_note),
