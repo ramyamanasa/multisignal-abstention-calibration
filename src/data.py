@@ -10,9 +10,9 @@ Uses HaluEval qa_samples which provides:
 - knowledge: reference context
 
 We compute 3 signals on each (question, answer) pair:
-- Signal 1: token entropy from opt-125m scoring the answer
-- Signal 2: semantic consistency of Groq samples
-- Signal 3: cross-model disagreement between opt-125m and Groq answers
+- Signal 1: token entropy from opt-125m scoring the provided answer
+- Signal 2: semantic consistency of Groq llama-3.1-8b-instant samples
+- Signal 3: cross-model disagreement — llama-3.1-8b-instant vs llama-3.3-70b-versatile
 """
 
 import json
@@ -23,7 +23,7 @@ from pathlib import Path
 from datasets import load_dataset
 from tqdm import tqdm
 
-from generation import load_model, generate_with_logprobs, generate_samples, generate_model2_answer
+from generation import load_model, generate_samples, generate_primary_answer, generate_model2_answer
 from signals import (
     compute_entropy_signal,
     compute_consistency_signal,
@@ -163,11 +163,12 @@ def build_feature_dataset(
                     time.sleep(2)
                     consistency_signals = compute_consistency_signal(samples)
 
-                    # Signal 3: disagreement between Groq (secondary) and opt-125m
-                    groq_answer          = generate_model2_answer(question)
+                    # Signal 3: disagreement between primary and secondary Groq models
+                    primary_answer       = generate_primary_answer(question)
                     time.sleep(2)
-                    opt_answer           = generate_with_logprobs(question)["answer_text"]
-                    disagreement_signals = compute_disagreement_signal(groq_answer, opt_answer)
+                    secondary_answer     = generate_model2_answer(question)
+                    time.sleep(2)
+                    disagreement_signals = compute_disagreement_signal(secondary_answer, primary_answer)
 
                     fv = build_feature_vector(
                         entropy_signals, consistency_signals, disagreement_signals
@@ -191,8 +192,8 @@ def build_feature_dataset(
                         "question":       question,
                         "answer":         answer,
                         "label":          is_hallucination,
-                        "groq_answer":    groq_answer,
-                        "opt_answer":     opt_answer,
+                        "primary_answer": primary_answer,
+                        "secondary_answer": secondary_answer,
                         "samples":        samples,
                         "token_logprobs": scored["token_logprobs"],
                     }
@@ -252,7 +253,7 @@ def build_feature_dataset(
 
 if __name__ == "__main__":
     df = build_feature_dataset(
-        n_questions=2000,
+        n_questions=1000,
         n_samples=5,
         output_path="../data/processed/features.csv",
         log_path="../data/processed/raw_outputs.jsonl",

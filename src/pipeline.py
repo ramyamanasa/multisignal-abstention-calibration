@@ -11,7 +11,13 @@ import numpy as np
 # Allow imports from src/
 sys.path.insert(0, os.path.dirname(__file__))
 
-from generation import load_model, generate_with_logprobs, generate_samples, generate_model2_answer
+from generation import (
+    load_model,
+    generate_with_logprobs,
+    generate_samples,
+    generate_primary_answer,
+    generate_model2_answer,
+)
 from signals import (
     compute_entropy_signal,
     compute_consistency_signal,
@@ -54,10 +60,10 @@ def run_pipeline(question: str, threshold: float = 0.95) -> dict:
 
     consistency_signals = compute_consistency_signal(samples)
 
-    # Signal 3: cross-model disagreement
-    groq_answer          = generate_model2_answer(question)
-    opt_answer           = result["answer_text"]
-    disagreement_signals = compute_disagreement_signal(groq_answer, opt_answer)
+    # Signal 3: cross-model disagreement (primary vs secondary Groq)
+    primary_answer       = generate_primary_answer(question)
+    secondary_answer     = generate_model2_answer(question)
+    disagreement_signals = compute_disagreement_signal(secondary_answer, primary_answer)
 
     # Feature vector
     fv = build_feature_vector(
@@ -70,8 +76,8 @@ def run_pipeline(question: str, threshold: float = 0.95) -> dict:
 
     return {
         "question":                  question,
-        "answer":                    groq_answer,
-        "opt_answer":                opt_answer,
+        "answer":                    secondary_answer,
+        "primary_answer":            primary_answer,
         "entropy_signals":           entropy_signals,
         "consistency_signals":       consistency_signals,
         "disagreement_signals":      disagreement_signals,

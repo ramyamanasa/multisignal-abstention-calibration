@@ -160,8 +160,29 @@ def generate_samples(
 
 
 # ---------------------------------------------------------------------------
-# Signal 3: Groq answer for cross-model disagreement
+# Signal 3: two Groq models for cross-model disagreement
 # ---------------------------------------------------------------------------
+
+def generate_primary_answer(
+    question: str,
+    max_new_tokens: int = 50,
+) -> str:
+    """Deterministic answer from PRIMARY_MODEL (llama-3.1-8b-instant) for Signal 3.
+
+    Called once per question at temperature=0 so the comparison against
+    the secondary model is stable across runs.
+    """
+    response = groq_client.chat.completions.create(
+        model=PRIMARY_MODEL,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT_2},
+            {"role": "user",   "content": question},
+        ],
+        max_tokens=max_new_tokens,
+        temperature=0,
+    )
+    return response.choices[0].message.content.strip()
+
 
 def generate_model2_answer(
     question: str,
