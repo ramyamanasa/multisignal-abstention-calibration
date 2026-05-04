@@ -145,7 +145,7 @@ def generate_samples(
         samples (list of str)
     """
     samples = []
-    for _ in range(n):
+    for idx in range(n):
         response = groq_client.chat.completions.create(
             model=PRIMARY_MODEL,
             messages=[
@@ -156,6 +156,8 @@ def generate_samples(
             temperature=temperature,
         )
         samples.append(response.choices[0].message.content.strip())
+        if idx < n - 1:
+            time.sleep(2)  # avoid RPM burst across consecutive sample calls
     return samples
 
 

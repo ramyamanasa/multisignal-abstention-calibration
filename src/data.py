@@ -174,106 +174,121 @@ def build_feature_dataset(
                 answer           = item["answer"]
                 is_hallucination = 1 if item["hallucination"] == "yes" else 0
 
-                try:
-                    # Signal 1: score the provided answer with opt-125m
-                    scored = score_answer_with_logprobs(
-                        question, answer, local_tokenizer, local_model
-                    )
-                    entropy_signals = compute_entropy_signal(
-                        scored["token_logprobs"], scored["tokens"]
-                    )
+                success = False
+                for attempt in range(4):
+                    try:
+                        # Signal 1: score the provided answer with opt-125m
+                        scored = score_answer_with_logprobs(
+                            question, answer, local_tokenizer, local_model
+                        )
+                        entropy_signals = compute_entropy_signal(
+                            scored["token_logprobs"], scored["tokens"]
+                        )
 
-                    # Signal 2: Groq consistency sampling
-                    samples = generate_samples(question, n=n_samples, temperature=1.0)
-                    time.sleep(2)
-                    consistency_signals = compute_consistency_signal(samples)
+                        # Signal 2: Groq consistency (2s sleep between each call)
+                        samples = generate_samples(question, n=n_samples, temperature=1.0)
+                        time.sleep(2)
+                        consistency_signals = compute_consistency_signal(samples)
 
-                    # Signal 3: primary vs secondary Groq
-                    primary_answer   = generate_primary_answer(question)
-                    time.sleep(2)
-                    secondary_answer = generate_model2_answer(question)
-                    time.sleep(2)
-                    disagreement_signals = compute_disagreement_signal(
-                        secondary_answer, primary_answer
-                    )
+                        # Signal 3: primary vs secondary Groq
+                        primary_answer   = generate_primary_answer(question)
+                        time.sleep(2)
+                        secondary_answer = generate_model2_answer(question)
+                        time.sleep(2)
+                        disagreement_signals = compute_disagreement_signal(
+                            secondary_answer, primary_answer
+                        )
 
-                    fv = build_feature_vector(
-                        entropy_signals, consistency_signals, disagreement_signals
-                    )
+                        fv = build_feature_vector(
+                            entropy_signals, consistency_signals, disagreement_signals
+                        )
 
-                    row = {
-                        "question_id":              i,
-                        "question":                 question,
-                        "answer":                   answer,
-                        "is_hallucination":         is_hallucination,
-                        "mean_entropy":             fv[0],
-                        "max_entropy":              fv[1],
-                        "entity_entropy":           fv[2],
-                        "semantic_inconsistency":   fv[3],
-                        "cross_model_disagreement": fv[4],
-                    }
-                    rows.append(row)
+                        row = {
+                            "question_id":              i,
+                            "question":                 question,
+                            "answer":                   answer,
+                            "is_hallucination":         is_hallucination,
+                            "mean_entropy":             fv[0],
+                            "max_entropy":              fv[1],
+                            "entity_entropy":           fv[2],
+                            "semantic_inconsistency":   fv[3],
+                            "cross_model_disagreement": fv[4],
+                        }
+                        rows.append(row)
 
-                    # SESSION-ONLY balance counters
-                    if is_hallucination == 1:
-                        n_hallucinated += 1
-                    else:
-                        n_correct += 1
-
-                    log_entry = {
-                        "question_id":      i,
-                        "question":         question,
-                        "answer":           answer,
-                        "label":            is_hallucination,
-                        "primary_answer":   primary_answer,
-                        "secondary_answer": secondary_answer,
-                        "samples":          samples,
-                        "token_logprobs":   scored["token_logprobs"],
-                    }
-                    log_file.write(json.dumps(log_entry) + "\n")
-                    log_file.flush()
-
-                    n_processed += 1
-
-                    # ── Progress ───────────────────────────────────────────────
-                    elapsed   = time.time() - start_time
-                    rate      = n_processed / elapsed
-                    remaining = n_to_process - n_processed
-                    eta_s     = remaining / rate if rate > 0 else 0
-                    eta_str   = (f"{eta_s / 3600:.1f}h" if eta_s >= 3600
-                                 else f"{eta_s / 60:.1f}m" if eta_s >= 60
-                                 else f"{eta_s:.0f}s")
-                    pbar.set_postfix({
-                        "hal": n_hallucinated,
-                        "cor": n_correct,
-                        "ETA": eta_str,
-                    })
-                    pbar.update(1)
-
-                    # ── Checkpoint every 50 new rows ───────────────────────────
-                    # Only save when BOTH labels have been seen in THIS session.
-                    if n_processed % 50 == 0:
-                        if n_correct > 0 and n_hallucinated > 0:
-                            all_so_far = prior_rows + rows
-                            pd.DataFrame(all_so_far).to_csv(checkpoint_path, index=False)
-                            tqdm.write(
-                                f"[checkpoint] {len(all_so_far)} total rows  "
-                                f"session: {n_hallucinated} hal, {n_correct} correct"
-                            )
-                            if abs(n_hallucinated - n_correct) > 50:
-                                tqdm.write(
-                                    f"[WARNING] Session imbalance: "
-                                    f"{abs(n_hallucinated - n_correct)} row gap"
-                                )
+                        # SESSION-ONLY balance counters
+                        if is_hallucination == 1:
+                            n_hallucinated += 1
                         else:
-                            tqdm.write(
-                                f"[checkpoint skipped] only one label so far  "
-                                f"(hal={n_hallucinated}, cor={n_correct})"
-                            )
+                            n_correct += 1
 
-                except Exception as e:
-                    tqdm.write(f"[error] question {i}: {e}")
+                        log_entry = {
+                            "question_id":      i,
+                            "question":         question,
+                            "answer":           answer,
+                            "label":            is_hallucination,
+                            "primary_answer":   primary_answer,
+                            "secondary_answer": secondary_answer,
+                            "samples":          samples,
+                            "token_logprobs":   scored["token_logprobs"],
+                        }
+                        log_file.write(json.dumps(log_entry) + "\n")
+                        log_file.flush()
+
+                        n_processed += 1
+                        success = True
+                        break
+
+                    except Exception as e:
+                        if "429" in str(e) and attempt < 3:
+                            wait = 60 * (attempt + 1)
+                            tqdm.write(
+                                f"[rate limit] q{i}: sleeping {wait}s "
+                                f"(attempt {attempt + 1}/4)"
+                            )
+                            time.sleep(wait)
+                        else:
+                            tqdm.write(f"[error] question {i}: {e}")
+                            break
+
+                if not success:
                     continue
+
+                # ── Progress ──────────────────────────────────────────────────
+                elapsed   = time.time() - start_time
+                rate      = n_processed / elapsed
+                remaining = n_to_process - n_processed
+                eta_s     = remaining / rate if rate > 0 else 0
+                eta_str   = (f"{eta_s / 3600:.1f}h" if eta_s >= 3600
+                             else f"{eta_s / 60:.1f}m" if eta_s >= 60
+                             else f"{eta_s:.0f}s")
+                pbar.set_postfix({
+                    "hal": n_hallucinated,
+                    "cor": n_correct,
+                    "ETA": eta_str,
+                })
+                pbar.update(1)
+
+                # ── Checkpoint every 50 new rows ──────────────────────────────
+                # Only save when BOTH labels have been seen in THIS session.
+                if n_processed % 50 == 0:
+                    if n_correct > 0 and n_hallucinated > 0:
+                        all_so_far = prior_rows + rows
+                        pd.DataFrame(all_so_far).to_csv(checkpoint_path, index=False)
+                        tqdm.write(
+                            f"[checkpoint] {len(all_so_far)} total rows  "
+                            f"session: {n_hallucinated} hal, {n_correct} correct"
+                        )
+                        if abs(n_hallucinated - n_correct) > 50:
+                            tqdm.write(
+                                f"[WARNING] Session imbalance: "
+                                f"{abs(n_hallucinated - n_correct)} row gap"
+                            )
+                    else:
+                        tqdm.write(
+                            f"[checkpoint skipped] only one label so far  "
+                            f"(hal={n_hallucinated}, cor={n_correct})"
+                        )
 
     finally:
         log_file.close()
