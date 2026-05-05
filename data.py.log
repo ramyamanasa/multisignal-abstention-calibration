@@ -1,0 +1,14 @@
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8997.09it/s]
+Loading HaluEval qa_samples...
+Available: 5010 hallucinated, 4990 correct
+Target:    500 of each = 1000 total
+Interleaved: 1000 examples  (pattern: hal[0], correct[0], hal[1], correct[1], ...)
+Resuming:  50 already done (26 hal, 24 correct in checkpoint)
+Remaining: 950 examples to process
+
+Loading opt-125m for Signal 1 scoring...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights:   1%|          | 1/197 [00:00<00:43,  4.52it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 770.23it/s]
+opt-125m loaded.
+
+Processing:   0%|          | 0/950 [00:00<?, ?it/s]Processing:   0%|          | 0/950 [00:16<?, ?it/s, hal=0, cor=1, ETA=4.3h]Processing:   0%|          | 1/950 [00:16<4:17:13, 16.26s/it, hal=0, cor=1, ETA=4.3h]Processing:   0%|          | 1/950 [00:32<4:17:13, 16.26s/it, hal=1, cor=1, ETA=4.3h]Processing:   0%|          | 2/950 [00:32<4:16:55, 16.26s/it, hal=1, cor=1, ETA=4.3h]Processing:   0%|          | 2/950 [00:47<4:16:55, 16.26s/it, hal=1, cor=2, ETA=4.2h]Processing:   0%|          | 3/950 [00:47<4:09:12, 15.79s/it, hal=1, cor=2, ETA=4.2h]Processing:   0%|          | 3/950 [01:03<4:09:12, 15.79s/it, hal=1, cor=3, ETA=4.2h]Processing:   0%|          | 4/950 [01:03<4:11:40, 15.96s/it, hal=1, cor=3, ETA=4.2h]Processing:   0%|          | 4/950 [01:19<4:11:40, 15.96s/it, hal=2, cor=3, ETA=4.2h]Processing:   1%|          | 5/950 [01:19<4:07:38, 15.72s/it, hal=2, cor=3, ETA=4.2h]Processing:   1%|          | 5/950 [01:35<4:07:38, 15.72s/it, hal=2, cor=4, ETA=4.2h]Processing:   1%|          | 6/950 [01:35<4:07:58, 15.76s/it, hal=2, cor=4, ETA=4.2h]Processing:   1%|          | 6/950 [01:50<4:07:58, 15.76s/it, hal=3, cor=4, ETA=4.1h]Processing:   1%|          | 7/950 [01:50<4:05:34, 15.63s/it, hal=3, cor=4, ETA=4.1h]Processing:   1%|          | 7/950 [02:06<4:05:34, 15.63s/it, hal=3, cor=5, ETA=4.1h]Processing:   1%|          | 8/950 [02:06<4:08:26, 15.82s/it, hal=3, cor=5, ETA=4.1h]/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/multiprocessing/resource_tracker.py:400: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-85711-81h60_tv'}
+  warnings.warn(

@@ -8,143 +8,143 @@
   },
   "metrics": {
     "fusion_model": {
-      "auroc": 0.8848,
+      "auroc": 0.9409,
       "auroc_ci": [
-        0.8111,
-        0.9448
+        0.9044,
+        0.9718
       ],
-      "ece": 0.0907,
-      "coverage": 0.39,
-      "accuracy": 0.872
+      "ece": 0.0729,
+      "coverage": 0.369,
+      "accuracy": 0.958
     },
     "operating_points": [
       {
         "threshold": 0.3,
-        "coverage": 0.32,
-        "accuracy_on_answered": 0.9688
+        "coverage": 0.3154,
+        "accuracy_on_answered": 0.9756
       },
       {
         "threshold": 0.4,
-        "coverage": 0.34,
-        "accuracy_on_answered": 0.9412
+        "coverage": 0.3462,
+        "accuracy_on_answered": 0.9556
       },
       {
         "threshold": 0.5,
-        "coverage": 0.39,
-        "accuracy_on_answered": 0.8718
+        "coverage": 0.3692,
+        "accuracy_on_answered": 0.9583
       },
       {
         "threshold": 0.6,
-        "coverage": 0.43,
-        "accuracy_on_answered": 0.814
+        "coverage": 0.5231,
+        "accuracy_on_answered": 0.8382
       },
       {
         "threshold": 0.7,
-        "coverage": 0.49,
-        "accuracy_on_answered": 0.7959
+        "coverage": 0.5538,
+        "accuracy_on_answered": 0.8056
       },
       {
         "threshold": 0.8,
-        "coverage": 0.57,
-        "accuracy_on_answered": 0.7544
+        "coverage": 0.6154,
+        "accuracy_on_answered": 0.775
       },
       {
         "threshold": 0.9,
-        "coverage": 0.73,
-        "accuracy_on_answered": 0.6438
+        "coverage": 0.7308,
+        "accuracy_on_answered": 0.6842
       }
     ],
     "threshold_selection": [
       {
         "target_coverage": 0.3,
-        "threshold": 0.0239,
-        "coverage": 0.32,
-        "accuracy_on_answered": 0.9688
+        "threshold": 0.0506,
+        "coverage": 0.3,
+        "accuracy_on_answered": 0.9231
       },
       {
         "target_coverage": 0.5,
-        "threshold": 0.6095,
-        "coverage": 0.5,
-        "accuracy_on_answered": 0.9
+        "threshold": 0.558,
+        "coverage": 0.5231,
+        "accuracy_on_answered": 0.7941
       },
       {
         "target_coverage": 0.7,
-        "threshold": 0.8661,
-        "coverage": 0.69,
-        "accuracy_on_answered": 0.6957
+        "threshold": 0.8701,
+        "coverage": 0.7462,
+        "accuracy_on_answered": 0.6598
       }
     ],
     "ablation": {
       "mean_entropy_only": {
-        "auroc": 0.7518,
+        "auroc": 0.7854,
         "auroc_ci": [
-          0.6522,
-          0.8529
+          0.7099,
+          0.8642
         ],
-        "ece": 0.1039,
-        "p_value_vs_fusion": 0.001
+        "ece": 0.0815,
+        "p_value_vs_fusion": 0.0
       },
       "max_entropy_only": {
-        "auroc": 0.8804,
+        "auroc": 0.8778,
         "auroc_ci": [
-          0.8046,
-          0.9389
+          0.8188,
+          0.9323
         ],
-        "ece": 0.0569,
-        "p_value_vs_fusion": 0.441
+        "ece": 0.0788,
+        "p_value_vs_fusion": 0.0
       },
       "entity_entropy_only": {
-        "auroc": 0.622,
+        "auroc": 0.5299,
         "auroc_ci": [
-          0.5045,
-          0.7294
+          0.4356,
+          0.6279
         ],
-        "ece": 0.1088,
+        "ece": 0.1656,
         "p_value_vs_fusion": 0.0
       },
       "consistency_only": {
-        "auroc": 0.4186,
+        "auroc": 0.4665,
         "auroc_ci": [
-          0.3127,
-          0.5435
+          0.3648,
+          0.5629
         ],
-        "ece": 0.1622,
+        "ece": 0.0814,
         "p_value_vs_fusion": 0.0
       },
       "disagreement_only": {
-        "auroc": 0.4872,
+        "auroc": 0.473,
         "auroc_ci": [
-          0.3781,
-          0.5869
+          0.3782,
+          0.5712
         ],
-        "ece": 0.0087,
+        "ece": 0.084,
         "p_value_vs_fusion": 0.0
       },
       "entropy_all": {
-        "auroc": 0.9096,
+        "auroc": 0.9598,
         "auroc_ci": [
-          0.8371,
-          0.9623
+          0.9312,
+          0.9842
         ],
-        "ece": 0.0877,
-        "p_value_vs_fusion": 0.975
+        "ece": 0.0884,
+        "p_value_vs_fusion": 0.989
       },
       "signals_2_and_3": {
-        "auroc": 0.4082,
+        "auroc": 0.4767,
         "auroc_ci": [
-          0.3038,
-          0.5246
+          0.3826,
+          0.575
         ],
-        "ece": 0.1175,
+        "ece": 0.07,
         "p_value_vs_fusion": 0.0
       },
       "all_5_features": {
-        "auroc": 0.8848,
+        "auroc": 0.9409,
         "auroc_ci": [
-          0.8111,
-          0.9448
+          0.9044,
+          0.9718
         ],
-        "ece": 0.0907,
+        "ece": 0.0729,
         "p_value_vs_fusion": null
       }
     }
