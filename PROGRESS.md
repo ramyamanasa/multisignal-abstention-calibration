@@ -34,4 +34,4 @@ not answer quality. Need redesign for fusion to add value over entropy alone.
 ## Experiment Index
 | Exp ID | Date | Description | best AUROC | Notes |
 |--------|------|-------------|------------|-------|
-| exp001 | 2026-04-20 | Single signals on HaluEval 200q | 0.9168 (max_entropy) | Entropy dominates |
+| exp001 | 2026-04-20 | Single signals on HaluEval 200q | 0.9168 (max_entropy) | Entropy dominates | 
