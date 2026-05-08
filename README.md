@@ -42,15 +42,16 @@ At threshold 0.30: answers 32% of questions with 97.6% accuracy vs 50% baseline.
 ---
 
 ## Repository Structure
+```
 multisignal-abstention-calibration/
 ├── src/                          # Core research system
-│   ├── generation.py             # LLM calls, log prob extraction, stochastic sampling
+│   ├── generation.py             # LLM calls, log prob extraction
 │   ├── signals.py                # Three uncertainty signals
 │   ├── data.py                   # HaluEval dataset pipeline
 │   ├── fusion.py                 # Meta-classifier training and ablation
 │   ├── evaluation.py             # AUROC, ECE, reliability diagrams
 │   ├── pipeline.py               # End-to-end inference wrapper
-│   └── ood_eval.py               # Out-of-distribution evaluation on TriviaQA
+│   └── ood_eval.py               # OOD evaluation on TriviaQA
 ├── app/                          # lectureOS application
 │   ├── src/
 │   │   ├── ui/app.py             # Gradio interface
@@ -59,21 +60,17 @@ multisignal-abstention-calibration/
 │   │   ├── ingestion/            # Document processing
 │   │   └── agents/               # LLM calling layer
 │   └── requirements.txt
-├── data/
-│   └── processed/
-│       ├── features.csv          # 500 HaluEval examples with all signals
-│       ├── demo_cache.json       # Pre-cached demo questions
-│       ├── reliability_diagram.png
-│       └── coverage_accuracy_curve.png
-├── models/
-│   └── meta_clf.pkl              # Trained calibrated classifier
-├── experiments/
-│   └── exp002_fusion_model.json  # Full ablation results
-├── scripts/
-│   └── run_eval.sh               # Full evaluation pipeline
-├── PROGRESS.md                   # Development log
+├── data/processed/
+│   ├── features.csv
+│   ├── demo_cache.json
+│   ├── reliability_diagram.png
+│   └── coverage_accuracy_curve.png
+├── models/meta_clf.pkl
+├── experiments/exp002_fusion_model.json
+├── scripts/run_eval.sh
+├── PROGRESS.md
 └── requirements.txt
-
+```
 ---
 
 ## System Architecture
