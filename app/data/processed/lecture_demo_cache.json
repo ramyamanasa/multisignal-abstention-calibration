@@ -1,0 +1,257 @@
+[
+  {
+    "id": "demo_001",
+    "question": "Training which model on which dataset using which GPU took 6 days on a single GPU?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "AlexNet on the Places dataset (2.5M images) using a single K40 GPU",
+    "decision": "ABSTAIN",
+    "hallucination_prob": 0.8661,
+    "groq_answer": "BERT on SQuAD 2.0 using 1 V100 GPU.",
+    "signals": {
+      "mean_entropy": 0.2738,
+      "max_entropy": 0.3671,
+      "entity_entropy": 0.241,
+      "semantic_inconsistency": 0.1396,
+      "cross_model_disagreement": 0.5991
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_002",
+    "question": "What were the exact training times in hours for ResNet-50 on ImageNet comparing 8x Tesla V100 vs 8x Tesla P100?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "5.1 hours (V100) vs 15.5 hours (P100)",
+    "decision": "ABSTAIN",
+    "hallucination_prob": 0.8638,
+    "groq_answer": "24 hours for 8x Tesla V100 and 32 hours for 8x Tesla P100.",
+    "signals": {
+      "mean_entropy": 0.2517,
+      "max_entropy": 0.3634,
+      "entity_entropy": 0.2,
+      "semantic_inconsistency": 0.0365,
+      "cross_model_disagreement": 0.437
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_003",
+    "question": "What inference throughput multiplier does the Tesla V100 achieve over a CPU server for ResNet-50 inference?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "47X higher throughput",
+    "decision": "ABSTAIN",
+    "hallucination_prob": 0.9909,
+    "groq_answer": "30",
+    "signals": {
+      "mean_entropy": 0.2586,
+      "max_entropy": 0.3679,
+      "entity_entropy": 0.144,
+      "semantic_inconsistency": 0.0256,
+      "cross_model_disagreement": 1.0126
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_004",
+    "question": "What is the NVLink interconnect bandwidth cited in the lecture in GB/s?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "300 GB/s",
+    "decision": "ABSTAIN",
+    "hallucination_prob": 0.8657,
+    "groq_answer": "100",
+    "signals": {
+      "mean_entropy": 0.2508,
+      "max_entropy": 0.3671,
+      "entity_entropy": 0.2504,
+      "semantic_inconsistency": 0.0,
+      "cross_model_disagreement": 1.0069
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_005",
+    "question": "How many tokens were LLaMA-33B and LLaMA-65B trained on and what batch size was used for all LLaMA models?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "1.4T tokens, batch size 4M tokens",
+    "decision": "ANSWER",
+    "hallucination_prob": 0.7117,
+    "groq_answer": "1.5T tokens, 2048 batch size.",
+    "signals": {
+      "mean_entropy": 0.2796,
+      "max_entropy": 0.3572,
+      "entity_entropy": 0.2796,
+      "semantic_inconsistency": 0.0367,
+      "cross_model_disagreement": 0.7862
+    },
+    "correct": false
+  },
+  {
+    "id": "demo_006",
+    "question": "In SWE-bench, how many software engineering problems does it contain, across how many Python repositories, and what percentage could Claude 2 resolve?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "2,294 problems, 12 repositories, 1.96% resolution rate",
+    "decision": "ANSWER",
+    "hallucination_prob": 0.7117,
+    "groq_answer": "SWE-bench contains 164 problems across 56 Python repositories. Claude 2 could resolve 13.4%.",
+    "signals": {
+      "mean_entropy": 0.2701,
+      "max_entropy": 0.3676,
+      "entity_entropy": 0.2701,
+      "semantic_inconsistency": 0.0187,
+      "cross_model_disagreement": 0.76
+    },
+    "correct": false
+  },
+  {
+    "id": "demo_007",
+    "question": "What is Gemini 1.5 Pro's context window as stated in the lecture?",
+    "expected_decision": "ABSTAIN",
+    "correct_answer_from_slide": "2 million tokens",
+    "decision": "ANSWER",
+    "hallucination_prob": 0.5923,
+    "groq_answer": "1 million tokens.",
+    "signals": {
+      "mean_entropy": 0.189,
+      "max_entropy": 0.3679,
+      "entity_entropy": 0.189,
+      "semantic_inconsistency": 0.0084,
+      "cross_model_disagreement": 0.8184
+    },
+    "correct": false
+  },
+  {
+    "id": "demo_008",
+    "question": "What is the attention mechanism and what problem does it solve in Seq2Seq models?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.4097,
+    "groq_answer": "The attention mechanism is a technique used in Seq2Seq models to focus on specific parts of the input sequence when generating each output element. It solves the problem of encoding entire input sequences into fixed-length vectors, which can lead to loss of information and poor",
+    "signals": {
+      "mean_entropy": 0.155,
+      "max_entropy": 0.3679,
+      "entity_entropy": 0.155,
+      "semantic_inconsistency": 0.0251,
+      "cross_model_disagreement": 0.409
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_009",
+    "question": "What are query, key, and value vectors in the transformer attention mechanism?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.5042,
+    "groq_answer": "In the transformer attention mechanism, the query, key, and value vectors are:\n\n- **Query (Q)**: The vector that represents the context in which the attention is being applied, typically derived from the output of the previous layer or the input sequence",
+    "signals": {
+      "mean_entropy": 0.2543,
+      "max_entropy": 0.3678,
+      "entity_entropy": 0.2543,
+      "semantic_inconsistency": 0.0547,
+      "cross_model_disagreement": 0.3882
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_010",
+    "question": "What is the difference between zero-shot and few-shot prompting?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.1133,
+    "groq_answer": "Zero-shot prompting provides no examples before asking the model to perform a task, while few-shot prompting provides a few examples to help the model learn the task.",
+    "signals": {
+      "mean_entropy": 0.2304,
+      "max_entropy": 0.3657,
+      "entity_entropy": 0.3289,
+      "semantic_inconsistency": 0.0257,
+      "cross_model_disagreement": 0.3731
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_011",
+    "question": "What are the two training objectives used in BERT pre-training?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ABSTAIN",
+    "hallucination_prob": 0.9506,
+    "groq_answer": "Masked Language Modeling (MLM) and Next Sentence Prediction (NSP).",
+    "signals": {
+      "mean_entropy": 0.2085,
+      "max_entropy": 0.3673,
+      "entity_entropy": 0.1307,
+      "semantic_inconsistency": -0.0,
+      "cross_model_disagreement": 0.6767
+    },
+    "correct": false
+  },
+  {
+    "id": "demo_012",
+    "question": "What is Chain-of-Thought prompting and why does it improve reasoning?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.5893,
+    "groq_answer": "Chain-of-Thought prompting is a technique where an AI model is prompted to generate a series of intermediate steps to explain its reasoning process when solving a problem. This approach improves reasoning by allowing the model to explicitly articulate its thought process, enabling it to better",
+    "signals": {
+      "mean_entropy": 0.2003,
+      "max_entropy": 0.3679,
+      "entity_entropy": 0.2003,
+      "semantic_inconsistency": 0.0558,
+      "cross_model_disagreement": 0.6642
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_013",
+    "question": "What is the bias-variance tradeoff in machine learning?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.3988,
+    "groq_answer": "The bias-variance tradeoff is a fundamental concept in machine learning that describes the tradeoff between two sources of error that affect the performance of a model: \n\n1. **Bias**: The error introduced by simplifying a real-world problem, typically by making assumptions or",
+    "signals": {
+      "mean_entropy": 0.2326,
+      "max_entropy": 0.3667,
+      "entity_entropy": 0.2326,
+      "semantic_inconsistency": -0.0,
+      "cross_model_disagreement": 0.1518
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_014",
+    "question": "What is the Mixture of Experts architecture and what is its main advantage?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.3576,
+    "groq_answer": "The Mixture of Experts (MoE) architecture is a type of neural network that consists of multiple expert networks and a gating network. Each expert network is a specialized neural network that is trained to handle a specific subset of the input data, and the gating",
+    "signals": {
+      "mean_entropy": 0.1762,
+      "max_entropy": 0.3676,
+      "entity_entropy": 0.1762,
+      "semantic_inconsistency": 0.0037,
+      "cross_model_disagreement": 0.2177
+    },
+    "correct": true
+  },
+  {
+    "id": "demo_015",
+    "question": "Why is position encoding necessary in transformer architectures?",
+    "expected_decision": "ANSWER",
+    "correct_answer_from_slide": null,
+    "decision": "ANSWER",
+    "hallucination_prob": 0.6244,
+    "groq_answer": "Position encoding is necessary in transformer architectures because the model does not inherently capture the sequential order or position of the input tokens. Unlike recurrent neural networks (RNNs) that process sequences one token at a time and have an inherent sense of sequence order,",
+    "signals": {
+      "mean_entropy": 0.2618,
+      "max_entropy": 0.3677,
+      "entity_entropy": 0.2618,
+      "semantic_inconsistency": 0.0599,
+      "cross_model_disagreement": 0.4778
+    },
+    "correct": true
+  }
+]

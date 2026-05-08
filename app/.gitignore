@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.eggs/
+
+# Data and model weights (too large for Git)
+data/raw/
+data/chroma_db/
+*.mp4
+*.mp3
+*.wav
+*.bin
+*.safetensors
+*.gguf
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+wandb/
