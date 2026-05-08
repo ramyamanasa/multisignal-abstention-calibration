@@ -1,6 +1,4 @@
-Got it. Here is the complete final README in one block. Open TextEdit, select all, delete, paste this entire thing, save:
-
-markdown# Multi-Signal Uncertainty Fusion for Hallucination Detection and Calibrated Selective Abstention
+# Multi-Signal Uncertainty Fusion for Hallucination Detection and Calibrated Selective Abstention
 
 **STAT GR5293 — Generative AI using Large Language Models — Spring 2026**  
 **Section 007 | Instructor: Parijat Dube | Columbia University**
