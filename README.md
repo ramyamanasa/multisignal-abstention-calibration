@@ -212,6 +212,20 @@ python3 data.py
 
 ---
 
+# Limitations and Future Work
+
+Current limitations include dependence on API-based inference latency, evaluation on a limited number of benchmark datasets, and sensitivity to prompt generation variance in semantic inconsistency estimation.
+
+Future work directions include:
+- Evaluation on larger frontier models
+- Dynamic abstention threshold selection
+- Retrieval-augmented hallucination mitigation
+- Online calibration adaptation
+- Multi-hop reasoning benchmarks
+- Real-time deployment optimization
+
+---
+
 ## References
 
 1. Manakul et al., SelfCheckGPT, EMNLP 2023
