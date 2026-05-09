@@ -98,6 +98,17 @@ calibration trained on HaluEval. Outputs calibrated P(hallucination).
 question is outside uploaded material scope. Layer 2 (signal-based) abstains if
 P(hallucination) exceeds the tunable threshold.
 
+The system includes guarded abstention behavior, API failure handling, and 
+corpus-scope filtering to avoid unsupported responses.
+
+---
+
+## Performance Considerations
+
+The system is designed as an inference-time wrapper without model retraining 
+requirements. Lightweight logistic-regression fusion minimizes computational 
+overhead while enabling calibrated hallucination estimation in near real-time settings.
+
 ---
 
 ## Setup: Research System
@@ -214,7 +225,9 @@ python3 data.py
 
 # Limitations and Future Work
 
-Current limitations include dependence on API-based inference latency, evaluation on a limited number of benchmark datasets, and sensitivity to prompt generation variance in semantic inconsistency estimation.
+Current limitations include dependence on API-based inference latency, evaluation 
+on a limited number of benchmark datasets, and sensitivity to prompt generation variance 
+in semantic inconsistency estimation.
 
 Future work directions include:
 - Evaluation on larger frontier models
@@ -223,6 +236,103 @@ Future work directions include:
 - Online calibration adaptation
 - Multi-hop reasoning benchmarks
 - Real-time deployment optimization
+
+---
+
+# Example Usage
+
+## Example selective abstention output
+
+```text
+Question:
+Who won the 2022 FIFA World Cup?
+
+Model Answer:
+Argentina won the 2022 FIFA World Cup.
+
+P(hallucination): 0.08
+Decision: ANSWER
+```
+
+---
+
+```text
+Question:
+What is the capital of Wakanda?
+
+Model Answer:
+ABSTAIN
+
+P(hallucination): 0.94
+Decision: ABSTAIN
+```
+
+---
+
+# Testing
+
+Run available tests:
+
+```bash
+python -m pytest tests
+```
+
+The tests validate:
+- signal computation
+- evaluation pipeline integration
+- abstention workflow behavior
+
+---
+
+# Troubleshooting
+
+## spaCy model not found
+
+If you encounter:
+
+```bash
+OSError: [E050] Can't find model 'en_core_web_sm'
+```
+
+run:
+
+```bash
+python3 -m spacy download en_core_web_sm
+```
+
+---
+
+## Missing API key
+
+If API calls fail, ensure `.env` contains:
+
+```env
+GROQ_API_KEY=your_key_here
+```
+
+and that the environment is loaded correctly.
+
+---
+
+## Dependency conflicts
+
+If package conflicts occur:
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+inside a fresh virtual environment.
+
+---
+
+## Evaluation script issues
+
+If `run_eval.sh` fails, ensure:
+- virtual environment is activated
+- dependencies are installed
+- dataset files exist under `data/processed/`
 
 ---
 
